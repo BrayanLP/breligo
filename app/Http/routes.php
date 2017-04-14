@@ -10,7 +10,28 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+Route::get('/', function(){
+	return view('welcome');
+});
+Route::get('/servicios', function(){
+	return view('web.services.index');
+});
+// Route::get('/', 'Web\Services\ServicesController@index');
+// Route::get('/', 'Web\Locations\LocationsController@index');
 
-Route::get('/', function () {
-    return view('welcome');
+Route::group(['prefix' => 'api/v1/'], function () {
+    Route::group(['prefix' => 'services'], function(){
+	    Route::get('/','Web\Services\ServicesController@index');
+	    Route::get('/{id}','Web\Services\ServicesController@show');
+	    Route::post('/','Web\Services\ServicesController@store');
+	    Route::put('/{id}','Web\Services\ServicesController@update');
+	    Route::delete('/{id}','Web\Services\ServicesController@destroy');
+    }); 
+    Route::group(['prefix' => 'locations'], function(){
+	    Route::get('/','Web\Locations\LocationsController@index');
+	    Route::get('/{id}','Web\Locations\LocationsController@show');
+	    Route::post('/','Web\Locations\LocationsController@store');
+	    Route::put('/{id}','Web\Locations\LocationsController@update');
+	    Route::delete('/{id}','Web\Locations\LocationsController@destroy');
+    }); 
 });

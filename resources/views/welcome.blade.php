@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" type="text/css" href="{{url()}}/assets/app/css/admin/app.css">
         <title>Laravel</title>
 
         <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
@@ -39,6 +40,7 @@
         <div class="container">
             <div class="content">
                 <div class="title">Laravel 5</div>
+                <img width="100px" src="{{url()}}/assets/app/images/paisajes-china2.jpg">
             </div>
         </div>
     </body>
