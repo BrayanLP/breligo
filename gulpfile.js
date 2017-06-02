@@ -48,22 +48,20 @@ elixir(function(mix) {
     
     gulp.watch(dir_path_css+"**/**/*.sass", ['sass']); 
     gulp.watch(dir_path_js+"**/**/*.js", ['angular']); 
-    gulp.watch(dir_path_images+"**/**/*", ['images']); 
+    // gulp.watch(dir_path_images+"**/**/*", ['images']); 
 
     mix.BrowserSync(
     {
         proxy: 'localhost:8000',
-        logPrefix       : "Laravel Eixir Iniciando BrowserSync",
-        logConnections  : false,
-        reloadOnRestart : false,
+        logPrefix       : "Laravel Eixir Iniciando BrowserSync", 
         notify          : true
     });
 });
 
 
-gulp.task('images', function() {
-    // gulp.watch(dir_path_css+"**/**/*.sass", ['sass']); 
-    // gulp.watch(dir_path_js+"**/**/*.js", ['js']); 
+gulp.task('img', function() {
+    gulp.watch(dir_path_css+"**/**/*.sass", ['sass']); 
+    gulp.watch(dir_path_js+"**/**/*.js", ['js']); 
     gulp.watch(dir_path_images+"**/**/*", ['images']); 
 });
 
@@ -123,7 +121,7 @@ gulp.task('angular',['clean'], function() {
                 console.log("| "+(j+1)+".- "+item[j]);
                 gulp.src(dir_path_js+modules[i]+'/'+item[j]+'/*.js')
                 .pipe(sourcemaps.init()) 
-                .pipe(uglify({mangle: true,outSourceMap: true}))
+                // .pipe(uglify({mangle: true,outSourceMap: true}))
                 .pipe(concat(item[j]+'.js'))
                 .pipe(sourcemaps.write())
                 .pipe(gulp.dest(dir_dest_js+modules[i]));

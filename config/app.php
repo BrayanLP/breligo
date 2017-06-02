@@ -1,7 +1,18 @@
 <?php
 
 return [
-
+    /*
+    | Ip donde se encuentra servidor API
+    | Adicionar API_SERVER= en el archivo .env
+    | Utilizar http://localhost cuando estamos probando en nuestra propia máquina
+    | Para otras pruebas utilizar el servidor en la siguiente ruta http:/
+    */
+    'api_server' => env('API_SERVER', ''),
+    /*
+    | true = se obtendrá la url del servidor local
+    | false = se obtendrá la url de API_SERVER
+    */
+    'url_host' => env('URL_HOST', false),
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode

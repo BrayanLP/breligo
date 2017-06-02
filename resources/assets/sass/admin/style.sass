@@ -1,5 +1,163 @@
 @charset "UTF-8"
+/*   UPDATE 16/APRIL/2017   */
 
+#mapa
+  width: 95.4%
+  height: 100% 
+  position: absolute  
+  top: 0 
+  left: 64px 
+  z-index: 90
+.mapa-60
+  width: 65.3% !important
+.mapa-90
+  width: 95.4% !important
+.buttons
+  position: fixed  
+  z-index: 999
+  bottom: 10px
+  left: 50%
+  transition: 0.3s all
+  ul
+    li
+      list-style: none
+      display: inline-block
+body
+  height: 100%
+ 
+.full-container
+  /* display: block; */
+  position: absolute 
+  background: blue
+  height: 100%
+  width: 100%
+  z-index: -1
+  left: 0
+  top: 0
+  padding-top: 66px
+  padding-left: 240px 
+#map-google
+  background: orange
+
+.ubicaciones
+  overflow-y: scroll
+  height: 605px
+  position: absolute 
+  transition: 0.5s all  
+  .text-ubicacion
+    display: block
+    text-align: center
+    padding: 1rem 0 0.5rem 0
+
+.slide_sidebar
+  // background: red
+  width: 30%
+  height: 100%
+  position: absolute
+  top: 0
+  right: -35%
+  z-index: 1000
+  transition: 0.3s all
+  .cont-user
+    position: absolute 
+    left: -130px
+    width: 132px
+  .cont-search
+    background: #31466a
+    width: 100%
+    height: 67px
+    padding: 1rem 0
+    .search_lp
+      width: 90%
+      margin: 0 auto
+.hide-sidebar
+  right: -30% 
+.show-sidebar
+  right: 0%
+  opacity: 1
+.right-auto
+  left: 50%
+  transform: translate(-50%,-10px)
+.right-move
+  left: 30%
+  transform: translate(-30%,-10px)
+.gm-style-iw
+  width: 200px !important
+  top: 25px !important
+  left: 0 !important
+  background: #fff
+  overflow: hidden
+  border-radius: 3px !important
+  box-shadow: 0 2px 1px rgba(0,0,0,0.3)
+  .globo_ubicacion
+    h6
+      padding: 0.5rem 0.5rem 0 0.5rem
+      color: #39527b
+      overflow: hidden
+    p
+      padding: 0.3rem 0.5rem 0 0.5rem
+      color: #868686
+      margin: 0 0 1rem 0
+    img
+      border-radius: 3px 3px 0 0 
+    a
+      background: #39527b
+      padding: 0.3rem 1rem
+      margin: 0 1rem 1rem 0
+      font-size: 12px
+      color: #fff
+      border-radius: 1rem
+section.detalle
+  > a
+    background: #fff
+    padding: 0.3rem 1rem
+    width: 100%
+    display: block
+    float: left
+    color: #39527b
+  > img
+    float: left
+  .header_detalle
+    width: 100%
+    float: left
+    background: #39527b
+    color: #fff
+    padding: 0.5rem 1rem
+    h4
+      font-size: 1.2rem !important
+    .text-center
+      position: relative
+      top: -33px
+      a
+        border-radius: 50%
+        color: #39527b
+        background: #fff
+        padding: 1rem
+        margin: 0
+        line-height: 0
+        width: 50px
+        height: 50px
+        &:hover
+          color: #39527b
+  .body_detalle
+    width: 100%
+    float: left
+    padding: 1rem
+    > p
+      padding: 1rem
+    .tab-content
+      ul
+        padding: 1rem
+        li
+          list-style: none
+          span
+            display: inline-block
+          p
+            display: inline-block
+            margin: 0
+            padding: 0
+            color: #868686
+/* FIN UPDATE 16/APRIL/2017 */
 .h1, .h2, .h3, h1, h2, h3
   font-weight: 300
 
@@ -948,7 +1106,7 @@ th
   background: #eee !important
 
 .bg-faded
-  background: #f7f7f9 !important
+  // background: #f7f7f9 !important
 
 .bg-facebook, .bg-hv-facebook:hover
   background-color: #3b5998 !important
@@ -1411,8 +1569,8 @@ th
 @media (min-width: 1200px)
   .navbar-search
     position: relative
-    margin-right: 1rem
-    height: 66px
+    // margin-right: 1rem
+    height: 30px
     display: -webkit-box
     display: -ms-flexbox
     display: flex
@@ -1440,8 +1598,7 @@ th
       background: none
       outline: none
       border: none
-      right: 4px
-      top: 20px
+      right: 4px 
 
 @media (max-width: 1199px)
   .navbar-search
@@ -1699,9 +1856,10 @@ html
 body
   position: relative
   min-height: 100%
-  padding-top: 66px
+  // padding-top: 66px
   -webkit-transition: padding-top .35s
   transition: padding-top .35s
+  overflow: hidden
 
 @media (min-width: 768px)
   body.menubar-fold .hidden-fold
@@ -1718,6 +1876,7 @@ body
 .navbar
   padding: 0
   height: 66px
+  width: 240px
 
 .navbar-header
   -webkit-box-flex: 0
@@ -1889,7 +2048,9 @@ body:not(.menubar-fold) .site-menubar
     flex: 0 0 64px
     width: 64px
     position: relative
-    min-height: 1300px
+    height: 100%
+    position: absolute
+    padding-top: 66px
     top: 0
 
 @media (max-width: 767px)
@@ -2091,7 +2252,7 @@ body:not(.menubar-fold) .site-menubar
 .navbar-light
   .navbar-nav .nav-link > .badge-danger
     box-shadow: 0 0 12px #ff7473
-  background: #f7f7f9
+  background: transparent
   .hamburger
     background: #31466a
   .navbar-btn

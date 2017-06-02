@@ -16,6 +16,9 @@ Route::get('/', function(){
 Route::get('/servicios', function(){
 	return view('web.services.index');
 });
+Route::get('/ubicaciones', function(){
+	return view('web.locations.index');
+});
 // Route::get('/', 'Web\Services\ServicesController@index');
 // Route::get('/', 'Web\Locations\LocationsController@index');
 
@@ -24,6 +27,7 @@ Route::group(['prefix' => 'api/v1/'], function () {
 	    Route::get('/','Web\Services\ServicesController@index');
 	    Route::get('/{id}','Web\Services\ServicesController@show');
 	    Route::post('/','Web\Services\ServicesController@store');
+	    Route::post('/uploadFile','Web\Services\ServicesController@uploadFile');
 	    Route::put('/{id}','Web\Services\ServicesController@update');
 	    Route::delete('/{id}','Web\Services\ServicesController@destroy');
     }); 

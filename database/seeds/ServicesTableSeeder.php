@@ -17,18 +17,21 @@ class ServicesTableSeeder extends Seeder
             [
                 'id' => 1,
                 'nombre' => 'Bancos',
+                'icon' => '//localhost:3000/assets/app/images/banco.svg',
                 'created_at'=> new DateTime,
                 'updated_at'=> new DateTime
             ],
             [
                 'id' => 2,
                 'nombre' => 'Comisarias',
+                'icon' => '//localhost:3000/assets/app/images/comisaria.svg',
                 'created_at'=> new DateTime,
                 'updated_at'=> new DateTime 
             ],
             [
                 'id' => 3,
-                'nombre' => 'Colegios',
+                'nombre' => 'Hospitales',
+                'icon' => '//localhost:3000/assets/app/images/hospital.svg',
                 'created_at'=> new DateTime,
                 'updated_at'=> new DateTime
             ]

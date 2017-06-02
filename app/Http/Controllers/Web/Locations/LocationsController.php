@@ -8,6 +8,8 @@ use Validator;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+// use App\Services;
+
 class LocationsController extends Controller
 {
     /**
@@ -16,7 +18,17 @@ class LocationsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){ 
-        $locations  = \App\Locations::get();
+        $search_id  = \Request::get('id_services'); 
+        $search     = \Request::get('nombre'); 
+        $per_page   = \Request::get('per_page') ?: 100; 
+        $locations  = \App\Locations::name($search)
+        // $services   = \App\Services::name($search)
+        // dd($locations->category);
+        ->type($search_id)
+        ->orderBy('id','DESC')
+        ->paginate($per_page);
+        $locations->setPath('');
+        // dd($locations); 
         return response()->json(
             $locations->toArray()
         );  
@@ -41,19 +53,15 @@ class LocationsController extends Controller
     public function store(Request $request)
     {
         $rules = array( 
-            'nombre_empresa' => 'required|unique:locations',
-            'descripcion' => 'required',
-            'telefono_1' => 'required|AlphaDash|Max:9|Min:9',
-            'telefono_2' => 'required|AlphaDash|Max:9|Min:9',
-            'correo' => 'required|Email',
+            'nombre_empresa' => 'required|unique:locations', 
+            'telefono_1' => 'AlphaDash|Max:9|Min:9',
+            'telefono_2' => 'AlphaDash|Max:9|Min:9',
+            'correo' => 'Email',
             'lat' => 'required',
             'lng' => 'required',
             'foto' => 'required',
-            'direccion' => 'required',
-            'nombre_direccion' => 'required|unique:locations',
-            'extract' => 'required|Max:60',
-            'visible' => 'Accepted',
-            'status' => 'Accepted',
+            'direccion' => 'required', 
+            'extract' => 'required|Max:60', 
             'id_services' => 'required'
         );
         $validator = Validator::make($request->all(), $rules);
@@ -127,19 +135,15 @@ class LocationsController extends Controller
     public function update(Request $request, $id)
     {
         $rules = array( 
-            'nombre_empresa' => 'required|unique:locations',
-            'descripcion' => 'required',
-            'telefono_1' => 'required|AlphaDash|Max:9|Min:9',
-            'telefono_2' => 'required|AlphaDash|Max:9|Min:9',
-            'correo' => 'required|Email',
+            'nombre_empresa' => 'required|unique:locations', 
+            'telefono_1' => 'AlphaDash|Max:9|Min:9',
+            'telefono_2' => 'AlphaDash|Max:9|Min:9',
+            'correo' => 'Email',
             'lat' => 'required',
             'lng' => 'required',
             'foto' => 'required',
-            'direccion' => 'required',
-            'nombre_direccion' => 'required|unique:locations',
-            'extract' => 'required|Max:60',
-            'visible' => 'Accepted',
-            'status' => 'Accepted',
+            'direccion' => 'required', 
+            'extract' => 'required|Max:60', 
             'id_services' => 'required'
         );
         $validator = Validator::make($request->all(), $rules);
