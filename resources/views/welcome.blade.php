@@ -110,7 +110,7 @@
                     </div>
 
                 </section>  
-                <div id="directions_panel" style="float:right; overflow: auto; width:100%; height: 100%;"></div>
+                <!-- <div id="directions_panel" style="float:right; overflow: auto; width:100%; height: 100%;"></div> -->
                 <div class="col-lg-12 col-md-6 pl-0 pr-0" ng-repeat="d in data_load" ng-if="show_panel == true"> 
                     <div class="card p-1 pl-3 pr-3 bg-faded mb-2">
                         <a href="javascript:void(0)" ng-mouseover="markers_hover(d.lat,d.lng,d.foto,d.nombre_empresa,d.direccion)" ng-click="show_marker(d)">
@@ -118,14 +118,28 @@
                                 <div class="media-body">
                                     <h6 ng-bind="d.nombre_empresa"></h6>
                                     <p class="mb-0 pb-0" ng-bind="d.direccion"></p>
-                                </div>
-                                <!-- /.media-body --> 
+                                </div> 
                             </div>
-                        </a>
-                        <!-- /.media -->
-                    </div>
-                    <!-- /.card -->
+                        </a> 
+                    </div> 
                 </div>
+                <!-- <h1>MI DATA ES: @{{new_data.length}} - @{{prueba.length}}</h1>
+                <div class="col-lg-12 col-md-6 pl-0 pr-0" ng-repeat="d in new_data" ng-if="show_panel == true"> 
+                    <div class="card p-1 pl-3 pr-3 bg-faded mb-2">
+                        <a href="javascript:void(0)" ng-mouseover="markers_hover(d.lat,d.lng,d.photo,d.title,d.direccion)" ng-click="show_marker(d)">
+                            <div class="media p-2"><img class="avatar avatar-md" ng-src="@{{d.photo}}" alt="">
+                                <div class="media-body">
+                                    <h6 ng-bind="d.title"></h6>
+                                    <p class="mb-0 pb-0" ng-bind="d.direccion"></p>
+                                </div> 
+                            </div>
+                        </a> 
+                    </div> 
+                </div>
+                <div ng-if="new_data.length < 1">
+                    No existen datos en el mapa
+                </div> -->
+
 
             </div>
         </div>
@@ -249,7 +263,7 @@
 </div>
 @endsection
 @section('javascript')
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSJG8JkNJ3i7pyHZz1gC1TYVUicm3C3sE&callback"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSJG8JkNJ3i7pyHZz1gC1TYVUicm3C3sE&libraries=places&callback"></script>
 <script src="{{ url() }}/assets/app/js/angular/Ubicaciones_Front.js"></script>
 <!-- <script src="{{ url('') }}/assets/scripts/storeJs/Services/indexServices.js"></script> -->
 

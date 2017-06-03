@@ -140,38 +140,11 @@ model.controller('Ctrl',
             zoom: 11,
             styles : style
         });
-        directionsDisplay = new google.maps.DirectionsRenderer();
-        directionsService = new google.maps.DirectionsService();
+        // directionsDisplay = new google.maps.DirectionsRenderer();
+        // directionsService = new google.maps.DirectionsService();
         
     }
-    $scope.Map();
-
-
-    function getDirections(){
-        var start = $('#start').val();
-        var end = $('#end').val();
-        if(!start || !end){
-            alert("Start and End addresses are required");
-            return;
-        }
-        var request = {
-                origin: start,
-                destination: end,
-                travelMode: google.maps.DirectionsTravelMode[$('#travelMode').val()],
-                unitSystem: google.maps.DirectionsUnitSystem[$('#unitSystem').val()],
-                provideRouteAlternatives: true
-        };
-        directionsService.route(request, function(response, status) {
-            if (status == google.maps.DirectionsStatus.OK) {
-                directionsDisplay.setMap(map);
-                directionsDisplay.setPanel($("#directions_panel").get(0));
-                directionsDisplay.setDirections(response);
-            } else {
-                alert("There is no directions available between these two points");
-            }
-        });
-    }
-
+    $scope.Map(); 
 
     $scope.initMap = function() {
         // $scope.array = [''];
@@ -182,15 +155,7 @@ model.controller('Ctrl',
             else{
                 $scope.load('',$scope.cant_rows,1); 
             }
-        });  
-        
-        // $scope.infoWindow = new google.maps.InfoWindow();
-        // google.maps.event.addListener(map, 'click', $scope.closeInfoWindow());
-
-        // var infoWindow = new google.maps.InfoWindow({map: map});
-
-        // Try HTML5 geolocation.
-        // $scope.location();
+        });   
         
     }
     $scope.resize = function(map){
@@ -198,9 +163,8 @@ model.controller('Ctrl',
            google.maps.event.trigger(map, 'resize');
            var bounds = map.getBounds();
         });
-    };
+    }; 
 
-    var array = [];
     $scope.getKilometros = function(lat1,lon1,lat2,lon2){
         function rad(x) {
             return x * Math.PI/180;
@@ -211,31 +175,21 @@ model.controller('Ctrl',
         var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(rad(lat1)) * Math.cos(rad(lat2)) * Math.sin(dLong/2) * Math.sin(dLong/2);
         var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
         var d = R * c;
-        var result = d.toFixed(3);
-        array.push(result);
+        var result = d.toFixed(3); 
         return result; //Retorna tres decimales
-    }
-    function getMinFromArray (array_of_values) {
-        var min = Math.min.apply(null, array_of_values);
-        return min;   
-    };
+    } 
     
     $scope.location = function(){  
         if (navigator.geolocation) {
             // INIT RESIZE 
             $scope.mapa = 'detalle'; 
-            $scope.disable_button = true; 
-            $scope.data = [];
-
-            $scope.init(); 
-            navigator.geolocation.getCurrentPosition(function(position) {   
-                console.log(position);
+            $scope.disable_button = true;  
+            // $scope.init();  
+            navigator.geolocation.getCurrentPosition(function(position) {    
                 $scope.posicion_actual = {
                   lat: position.coords.latitude,
                   lng: position.coords.longitude
-                };
-                var geocoding = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + $scope.posicion_actual.lat + ',' + $scope.posicion_actual.lng + '&sensor=false';
-                console.log(geocoding);
+                }; 
                 var image = {
                     url: '/assets/app/images/position_actual.png', 
                     size: new google.maps.Size(50, 50), 
@@ -250,7 +204,7 @@ model.controller('Ctrl',
 
                 var circle = new google.maps.Circle({
                     center: $scope.posicion_actual,
-                    radius: 10000,
+                    radius: 40000,
                     map: map,
                     fillColor: '#39527b',
                     fillOpacity: 0.1,
@@ -259,53 +213,27 @@ model.controller('Ctrl',
                 });  
 
 
-
-                for (var i = $scope.data_load.length; i--;){
-                    if(parseFloat( $scope.getKilometros( $scope.posicion_actual.lat, $scope.posicion_actual.lng, $scope.data_load[i].lat, $scope.data_load[i].lng)) <= 10){ 
-                        var min = Math.min.apply(null, array);
-                        console.log(i +' el minimo es: '+ min);
-                        // console.log(result);
-                        // console.log($scope.data_load[i]);
-                        if(i == 0){
-                            console.log($scope.data_load[i]);
-                            $.getJSON(geocoding).done(function(location) {
-                                // console.log(location);
-                                var start = location.results[0].formatted_address;
-                                var end = $scope.data_load[3].direccion;
-                                if(!start || !end){
-                                    alert("Start and End addresses are required");
-                                    return;
-                                }
-                                var request = {
-                                        origin: start,
-                                        destination: end,
-                                        travelMode: google.maps.DirectionsTravelMode['WALKING'],
-                                        unitSystem: google.maps.DirectionsUnitSystem['METRIC'],
-                                        provideRouteAlternatives: false
-                                };
-
-                                directionsService.route(request, function(response, status) {
-                                    if (status == google.maps.DirectionsStatus.OK) {
-                                        directionsDisplay.setMap(map);
-                                        directionsDisplay.setPanel($("#directions_panel").get(0));
-                                        directionsDisplay.setDirections(response);
-                                    } else {
-                                        console.log(response,status);
-                                        alert("There is no directions available between these two points");
-                                    }
-                                });
-                            })
-                        }
-                    } 
-                    else{ 
-                        $scope.del($scope.data_load.indexOf($scope.data_load[i])); 
-                        // $scope.data_load[i].setMap(null);
-                    }
-                }   
+                var service = new google.maps.places.PlacesService(map);
+                service.nearbySearch({
+                    location: $scope.posicion_actual,
+                    radius: 40000,
+                    type: ['police']
+                }, processResults); 
+                // 'bank','police','pharmacy','fire_station',
+                // for (var i = $scope.data_load.length; i--;){
+                //     if(parseFloat( $scope.getKilometros( $scope.posicion_actual.lat, $scope.posicion_actual.lng, $scope.data_load[i].lat, $scope.data_load[i].lng)) <= 0.3){  
+                //         // console.log($scope.data_load[i]);
+                //     } 
+                //     else{ 
+                //         // console.log("Eliminado: "+$scope.data_load[i]);
+                //         $scope.del($scope.data_load.indexOf($scope.data_load[i]));  
+                //     }
+                // }   
 
                 map.setZoom(18);
                 map.panTo(marker.position);
                 map.fitBounds(circle.getBounds()); 
+                console.log($scope.new_data);
 
             }, function() {  
                 $scope.handleLocationError(true, infoWindow, map.getCenter());
@@ -315,7 +243,65 @@ model.controller('Ctrl',
 
         }
          
-    }
+    };
+
+    function processResults (results, status, pagination) {
+        if (status !== google.maps.places.PlacesServiceStatus.OK) {
+            return;
+        }   
+        else {
+            console.log('Inicia vacia: '+ $scope.new_data);
+            $scope.createMarkers(results); 
+            console.log($scope.new_data);
+            if (pagination.hasNextPage) {
+                sleep:4;
+                pagination.nextPage();
+                // var moreButton = document.getElementById('more');
+
+                // moreButton.disabled = false;
+
+                // moreButton.addEventListener('click', function() {
+                //     moreButton.disabled = true;
+                //     pagination.nextPage();
+                // });
+            }
+        }
+    };
+
+
+    
+    $scope.new_data = [];
+    $scope.createMarkers = function(places) {
+        // var bounds = new google.maps.LatLngBounds();  
+            for (var i = 0, place; place = places[i]; i++) { 
+                var image = {
+                    url: place.icon,
+                    size: new google.maps.Size(71, 71),
+                    origin: new google.maps.Point(0, 0),
+                    anchor: new google.maps.Point(17, 34),
+                    scaledSize: new google.maps.Size(25, 25)
+                }; 
+
+                $scope.marker = new google.maps.Marker({
+                    map: map,
+                    icon: image,
+                    title: place.name,
+                    position: place.geometry.location,
+                    photo: typeof 
+                        place.photos !== 'undefined' ? 
+                        place.photos[0].getUrl({'maxWidth': 100, 'maxHeight': 100}) : 'nophoto.jpg'
+                });
+
+                $scope.new_data.push($scope.marker); 
+
+
+                // bounds.extend(place.geometry.location); 
+            } 
+            console.log($scope.new_data.length); 
+            // return $scope.new_data;
+        // map.fitBounds(bounds);
+    };  
+
     $scope.del = function(index){  
         $scope.data_load.splice(index,1);  
     };
