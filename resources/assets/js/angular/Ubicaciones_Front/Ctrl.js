@@ -21,6 +21,8 @@ model.controller('Ctrl',
     };
 
     $scope.temp = [];
+    $scope.new_marker = [];
+    $scope.data_real = [];
     $scope.cant_rows = "10";
     $scope.mapa = 'full';
     
@@ -30,7 +32,7 @@ model.controller('Ctrl',
         }   
         Services.Load(q,p,page).then(function (response) {
             $scope.data_load = response.data; 
-            $scope.temp.push($scope.data_load);  
+            // $scope.temp.push($scope.data_load);  
             $scope.to = response.to; 
             $scope.total = response.total;
             $scope.last_page = response.last_page;
@@ -43,7 +45,6 @@ model.controller('Ctrl',
             if($scope.next_page_url !== null) {
                 $scope.next_page_url = $scope.next_page_url.replace("?page=",""); 
             } 
-            $scope.setMarkers(map);
         }, function (response) {
         }); 
     } 
@@ -84,7 +85,9 @@ model.controller('Ctrl',
     $scope.show_detalle = false;
     $scope.disable_button = false;
     var map,map2,marker;
-    var infoWindow = null; 
+    var infoWindow = null;
+    infoWindow = new google.maps.InfoWindow(); 
+    
     var directionsDisplay = null;
     var directionsService = null; 
     // var style = [{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#31466a"}]},{"featureType":"landscape","elementType":"all","stylers":[{"saturation":"-13"},{"lightness":"6"},{"gamma":"1.81"},{"color":"#c9ccd1"}]},{"featureType":"landscape","elementType":"labels","stylers":[{"weight":"1.82"}]},{"featureType":"landscape","elementType":"labels.text","stylers":[{"visibility":"on"}]},{"featureType":"landscape","elementType":"labels.text.fill","stylers":[{"lightness":"3"},{"gamma":"0.00"},{"saturation":"-1"},{"weight":"2.30"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"all","stylers":[{"saturation":-100},{"lightness":45},{"visibility":"on"}]},{"featureType":"road.highway","elementType":"all","stylers":[{"visibility":"simplified"},{"saturation":"-100"}]},{"featureType":"road.arterial","elementType":"labels.icon","stylers":[{"visibility":"off"},{"saturation":"-100"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"on"},{"saturation":"-100"}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#5375ac"},{"visibility":"on"}]}];
@@ -131,6 +134,7 @@ model.controller('Ctrl',
     ];
 
     function closeInfoWindow(){
+        infoWindow = new google.maps.InfoWindow(); 
         infoWindow.close();
     } 
     
@@ -146,8 +150,8 @@ model.controller('Ctrl',
     }
     $scope.Map(); 
 
-    $scope.initMap = function() {
-        // $scope.array = [''];
+
+    $scope.initMap = function() { 
         $scope.$watch('search_text', function(n){ 
             if(n != undefined){
                 $scope.load($scope.search_text,10,1); 
@@ -155,9 +159,9 @@ model.controller('Ctrl',
             else{
                 $scope.load('',$scope.cant_rows,1); 
             }
-        });   
-        
+        });           
     }
+
     $scope.resize = function(map){
         google.maps.event.addListenerOnce(map, 'bounds_changed', function () {
            google.maps.event.trigger(map, 'resize');
@@ -177,15 +181,28 @@ model.controller('Ctrl',
         var d = R * c;
         var result = d.toFixed(3); 
         return result; //Retorna tres decimales
-    } 
+    };
+
+    function getMinFromArray (array_of_values) {
+        var min = Math.min.apply(null, array_of_values);
+        return min;   
+    };
+
+    // google.maps.event.addListener(marker, 'click', function (e) {
+    //     alert("clicked marker");
+    // });
+
     
     $scope.location = function(){  
         if (navigator.geolocation) {
             // INIT RESIZE 
             $scope.mapa = 'detalle'; 
-            $scope.disable_button = true;  
-            // $scope.init();  
+            $scope.disable_button = true; 
+            $scope.data = [];
+
+            $scope.init(); 
             navigator.geolocation.getCurrentPosition(function(position) {    
+                $scope.createMarker(map);
                 $scope.posicion_actual = {
                   lat: position.coords.latitude,
                   lng: position.coords.longitude
@@ -199,43 +216,72 @@ model.controller('Ctrl',
                 var marker = new google.maps.Marker({
                     position: $scope.posicion_actual,
                     map: map,
-                    // icon: image
+                    icon: image
                 });
 
                 var circle = new google.maps.Circle({
                     center: $scope.posicion_actual,
-                    radius: 40000,
+                    radius: 1000,
                     map: map,
                     fillColor: '#39527b',
                     fillOpacity: 0.1,
                     strokeColor: '#39527b',
                     strokeOpacity: 0.2
-                });  
+                });   
+                
+                for (var i = $scope.data_load.length; i--;){ 
+                    if(parseFloat( $scope.getKilometros( $scope.posicion_actual.lat, $scope.posicion_actual.lng, $scope.data_load[i].lat, $scope.data_load[i].lng)) <= 1){   
+                        $scope.data_real.push($scope.data_load[i]);
+                        console.log($scope.data_real);
+                        $scope.$digest();
+                        // var min = Math.min.apply(null, array);
+                        // console.log(i +' el minimo es: '+ min);
+                        // console.log(result);
+                        // console.log($scope.data_load[i]);
+                        // if(i == 0){
+                        //     console.log($scope.data_load[i]);
+                        //     $.getJSON(geocoding).done(function(location) {
+                        //         // console.log(location);
+                        //         var start = location.results[0].formatted_address;
+                        //         var end = $scope.data_load[3].direccion;
+                        //         if(!start || !end){
+                        //             alert("Start and End addresses are required");
+                        //             return;
+                        //         }
+                        //         var request = {
+                        //                 origin: start,
+                        //                 destination: end,
+                        //                 travelMode: google.maps.DirectionsTravelMode['WALKING'],
+                        //                 unitSystem: google.maps.DirectionsUnitSystem['METRIC'],
+                        //                 provideRouteAlternatives: false
+                        //         };
 
+                        //         directionsService.route(request, function(response, status) {
+                        //             if (status == google.maps.DirectionsStatus.OK) {
+                        //                 directionsDisplay.setMap(map);
+                        //                 directionsDisplay.setPanel($("#directions_panel").get(0));
+                        //                 directionsDisplay.setDirections(response);
+                        //             } else {
+                        //                 console.log(response,status);
+                        //                 alert("There is no directions available between these two points");
+                        //             }
+                        //         });
+                        //     })
+                        // }
+                        
+                    } 
+                    else{ 
+                        $scope.del($scope.data_load.indexOf($scope.data_load[i])); 
+                        $scope.new_marker[i].setMap(null);  
+                        $scope.$digest(); 
+                    } 
+                } 
 
-                var service = new google.maps.places.PlacesService(map);
-                service.nearbySearch({
-                    location: $scope.posicion_actual,
-                    radius: 40000,
-                    type: ['police']
-                }, processResults); 
-                // 'bank','police','pharmacy','fire_station',
-                // for (var i = $scope.data_load.length; i--;){
-                //     if(parseFloat( $scope.getKilometros( $scope.posicion_actual.lat, $scope.posicion_actual.lng, $scope.data_load[i].lat, $scope.data_load[i].lng)) <= 0.3){  
-                //         // console.log($scope.data_load[i]);
-                //     } 
-                //     else{ 
-                //         // console.log("Eliminado: "+$scope.data_load[i]);
-                //         $scope.del($scope.data_load.indexOf($scope.data_load[i]));  
-                //     }
-                // }   
-
+                
                 map.setZoom(18);
                 map.panTo(marker.position);
-                map.fitBounds(circle.getBounds()); 
-                console.log($scope.new_data);
-
-            }, function() {  
+                map.fitBounds(circle.getBounds());
+            }, function() {   
                 $scope.handleLocationError(true, infoWindow, map.getCenter());
             }); 
         } else { 
@@ -243,197 +289,179 @@ model.controller('Ctrl',
 
         }
          
-    };
-
-    function processResults (results, status, pagination) {
-        if (status !== google.maps.places.PlacesServiceStatus.OK) {
-            return;
-        }   
-        else {
-            console.log('Inicia vacia: '+ $scope.new_data);
-            $scope.createMarkers(results); 
-            console.log($scope.new_data);
-            if (pagination.hasNextPage) {
-                sleep:4;
-                pagination.nextPage();
-                // var moreButton = document.getElementById('more');
-
-                // moreButton.disabled = false;
-
-                // moreButton.addEventListener('click', function() {
-                //     moreButton.disabled = true;
-                //     pagination.nextPage();
-                // });
+    }
+    $scope.toggle_Marker = function(id){ 
+        console.log(id);
+        $scope.id = document.getElementById(id);;
+        $scope.id.checked = !$scope.id.checked; 
+        if($('#'+id).is(':checked')){
+            for(var i = 0; i < $scope.new_marker.length; i++){
+                if($scope.new_marker[i].type === id){ 
+                    $scope.new_marker[i].setVisible(true);
+                    
+                }
             }
         }
-    };
-
-
-    
-    $scope.new_data = [];
-    $scope.createMarkers = function(places) {
-        // var bounds = new google.maps.LatLngBounds();  
-            for (var i = 0, place; place = places[i]; i++) { 
-                var image = {
-                    url: place.icon,
-                    size: new google.maps.Size(71, 71),
-                    origin: new google.maps.Point(0, 0),
-                    anchor: new google.maps.Point(17, 34),
-                    scaledSize: new google.maps.Size(25, 25)
-                }; 
-
-                $scope.marker = new google.maps.Marker({
-                    map: map,
-                    icon: image,
-                    title: place.name,
-                    position: place.geometry.location,
-                    photo: typeof 
-                        place.photos !== 'undefined' ? 
-                        place.photos[0].getUrl({'maxWidth': 100, 'maxHeight': 100}) : 'nophoto.jpg'
-                });
-
-                $scope.new_data.push($scope.marker); 
-
-
-                // bounds.extend(place.geometry.location); 
-            } 
-            console.log($scope.new_data.length); 
-            // return $scope.new_data;
-        // map.fitBounds(bounds);
-    };  
-
+        else{
+            for(var i = 0; i < $scope.new_marker.length; i++){
+                if($scope.new_marker[i].type === id){ 
+                    $scope.new_marker[i].setVisible(false);
+                    
+                }
+            }
+        }
+    }
+    // Elimina 1 x 1 cada dato que no esta en el rango
     $scope.del = function(index){  
         $scope.data_load.splice(index,1);  
     };
-    // $scope.location();
+    // Hace un recorrido al array de marcadores
+    $scope.setMapOnAll = function(map) {
+        for(var i = 0; i < $scope.new_marker.length; i++) { 
+            $scope.new_marker[i].setMap(map);
+        }
+    }
+    // limpia todos los marcadores a null
+    $scope.clearMarkers = function() {
+        $scope.setMapOnAll(null);
+    }
+    // funcion llama a limpiar todos los marcadores
+    $scope.deleteMarkers = function() {
+        $scope.clearMarkers();
+        $scope.new_marker = [];
+    } 
 
     $scope.handleLocationError= function(browserHasGeolocation, infoWindow, pos) {
-        // infoWindow.setPosition(pos);
-        // infoWindow.setContent(browserHasGeolocation ?
-            // 'Error: El servicio de Geolocalizacion Falló.' :
-            // 'Error: Your browser doesn\'t support geolocation.');
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+            'Error: El servicio de Geolocalizacion Falló.' :
+            'Error: Your browser doesn\'t support geolocation.');
     } 
-    infoWindow = new google.maps.InfoWindow(); 
-    $scope.setMarkers = function(map) { 
-        // var infoWindow = new google.maps.InfoWindow({map: map});
-        // console.log($scope.data_load.length);
+
+    
+    
+    $scope.createMarker = function(map) {  
         for (var i = 0; i < $scope.data_load.length; i++) {  
-            var beach = $scope.data_load[i];
+            var beach = $scope.data_load[i]; 
             var pos = {
               lat: parseFloat(beach.lat),
               lng: parseFloat(beach.lng)
-            };
-            var image = { 
-                //url:  beach.icon, 
-                scaledSize: new google.maps.Size(20, 20), 
-                origin: new google.maps.Point(0, 0), 
-                anchor: new google.maps.Point(0, 0),
-                scale: 1
             }; 
-            // console.log(image);
-            // if(beach.id_services === 1){
-            //     var image = { 
-            //         url: '//localhost:3000/assets/app/images/banco.svg', 
-            //         scaledSize: new google.maps.Size(20, 20), 
-            //         origin: new google.maps.Point(0, 0), 
-            //         anchor: new google.maps.Point(0, 0),
-            //         scale: 1
-            //     };  
-            // } 
-            // else if(beach.id_services === 2){
-            //     var image = { 
-            //         url: '//localhost:3000/assets/app/images/comisaria.svg', 
-            //         scaledSize: new google.maps.Size(20, 20),  
-            //         origin: new google.maps.Point(0, 0), 
-            //         anchor: new google.maps.Point(0, 0),
-            //         scale: 1
-            //     };  
-            // }
+            if(beach.id_services === 1){
+                var image = { 
+                    url: '//localhost:3000/assets/app/images/banco.svg', 
+                    scaledSize: new google.maps.Size(20, 20), 
+                    origin: new google.maps.Point(0, 0), 
+                    anchor: new google.maps.Point(0, 0),
+                    scale: 1
+                };  
+            } 
+            else if(beach.id_services === 2){
+                var image = { 
+                    url: '//localhost:3000/assets/app/images/comisaria.svg', 
+                    scaledSize: new google.maps.Size(20, 20),  
+                    origin: new google.maps.Point(0, 0), 
+                    anchor: new google.maps.Point(0, 0),
+                    scale: 1
+                };  
+            }
+            else if(beach.id_services === 3){
+                var image = { 
+                    url: '//localhost:3000/assets/app/images/hospital.svg', 
+                    scaledSize: new google.maps.Size(20, 20),  
+                    origin: new google.maps.Point(0, 0), 
+                    anchor: new google.maps.Point(0, 0),
+                    scale: 1
+                };  
+            }
+            else if(beach.id_services === 4){
+                var image = { 
+                    url: '//localhost:3000/assets/app/images/comisaria.svg', 
+                    scaledSize: new google.maps.Size(20, 20),  
+                    origin: new google.maps.Point(0, 0), 
+                    anchor: new google.maps.Point(0, 0),
+                    scale: 1
+                };  
+            }
+            else if(beach.id_services === 5){
+                var image = { 
+                    url: '//localhost:3000/assets/app/images/comisaria.svg', 
+                    scaledSize: new google.maps.Size(20, 20),  
+                    origin: new google.maps.Point(0, 0), 
+                    anchor: new google.maps.Point(0, 0),
+                    scale: 1
+                };  
+            }
+            else{
+                console.log("Ocurrio un error inesperado en los ID "+beach.id_services+" de Entidades");
+            } 
             var marker = new google.maps.Marker({
                 position: pos,
                 map: map,
                 animation: google.maps.Animation.DROP, 
                 draggable: false,
-                //icon: image,
+                icon: image,
                 type: beach.id_services,
 
-            });
-            // console.log(beach);
-            // google.maps.event.addListener(marker, 'click', function(){
-                // infoWindow.setContent(
-                //     [
-                //         '<div class="center globo_ubicacion">', 
-                //         '<img width="100%" src="'+foto+'">',
-                //         '<h6>'+titulo+'</h6>', 
-                //         '<p>'+direccion+'</p>', 
-                //         '</div>'
-                //     ].join('')
-                // );
-                // infoWindow.open(map, marker);
-            // });
-            // console.log(marker);
-            // $scope.markers_hover(marker);
-            // marker.addListener('click', toggleBounce);
+            }); 
+            $scope.new_marker.push(marker); 
+            $scope.markers_hover(marker); 
         }
-    }
+        console.log($scope.new_marker);
+        //cierra el infowindow una vez cambie
+        infoWindow.close();
+    } 
+
     function toggleBounce() { 
         // marker.setAnimation(google.maps.Animation.BOUNCE); 
     }
     
+    
     $scope.markers_hover = function(lat, lng,foto,titulo,direccion,data){ 
+        
         var pos = {};
         pos.lat = parseFloat(lat);
         pos.lng = parseFloat(lng); 
-        // infoWindow.close();
-        // infoWindow = new google.maps.InfoWindow({map: map,maxWidth: 200});
-        // infoWindow.setPosition(pos); 
-        // infoWindow.setContent(
-        //     [
-        //         '<div class="center globo_ubicacion">', 
-        //         '<img width="100%" src="'+foto+'">',
-        //         '<h6>'+titulo+'</h6>', 
-        //         '<p>'+direccion+'</p>', 
-        //         '</div>'
-        //     ].join('')
-        // );
-        // map.setCenter(new google.maps.LatLng(pos));
-        map.panTo(pos);
-        map.setZoom(17);    
-        // $scope.set_google_maps();
-        
-        
-        // console.log(lat,lng)
+        infoWindow.close();
+        infoWindow = new google.maps.InfoWindow({map: map,maxWidth: 200});
+        infoWindow.setPosition(pos); 
+        infoWindow.setContent(
+            [
+                '<div class="center globo_ubicacion">', 
+                '<img width="100%" src="'+foto+'">',
+                '<h6>'+titulo+'</h6>', 
+                '<p>'+direccion+'</p>', 
+                '</div>'
+            ].join('')
+        ); 
+        $scope.set_google_maps(); 
     } 
     $scope.set_google_maps = function(){
-        // var iwOuter = $('.gm-style-iw');
-        // var iwCloseBtn = iwOuter.next();
-        // var iwBackground = iwOuter.prev(); 
-        // iwBackground.children(':nth-child(2)').css({'display' : 'none'}); 
-        // iwBackground.children(':nth-child(4)').css({'display' : 'none'});
-        // iwOuter.parent().parent().css({left: '40px'});
-        // iwBackground.children(':nth-child(1)').attr('style', function(i,s){ return s + 'left: 84px !important;'});
-        // iwBackground.children(':nth-child(3)').attr('style', function(i,s){ return s + 'left: 84px !important;'});
-        // iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(0, 0, 0, 0) 0px 1px 6px', 'z-index' : '1'});
-        // iwBackground.children(':nth-child(3)').children(':nth-child(1)').find('div').attr('style', function(i,s){ return s + 'height: 21px !important;'+'width: 10px !important;'+'left:7px !important;'});
-        // iwBackground.children(':nth-child(3)').children(':nth-child(2)').find('div').attr('style', function(i,s){ return s + 'height: 25px !important;'+'width: 9px !important;'});
-        // iwCloseBtn.css({'display': 'none'});
-    }
+        var iwOuter = $('.gm-style-iw');
+        var iwCloseBtn = iwOuter.next();
+        var iwBackground = iwOuter.prev(); 
+        iwBackground.children(':nth-child(2)').css({'display' : 'none'}); 
+        iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+        iwOuter.parent().parent().css({left: '40px'});
+        iwBackground.children(':nth-child(1)').attr('style', function(i,s){ return s + 'left: 84px !important;'});
+        iwBackground.children(':nth-child(3)').attr('style', function(i,s){ return s + 'left: 84px !important;'});
+        iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(0, 0, 0, 0) 0px 1px 6px', 'z-index' : '1'});
+        iwBackground.children(':nth-child(3)').children(':nth-child(1)').find('div').attr('style', function(i,s){ return s + 'height: 21px !important;'+'width: 10px !important;'+'left:7px !important;'});
+        iwBackground.children(':nth-child(3)').children(':nth-child(2)').find('div').attr('style', function(i,s){ return s + 'height: 25px !important;'+'width: 9px !important;'});
+        iwCloseBtn.css({'display': 'none'});
+    };
+
     $scope.show_marker = function(data){
         $scope.show_detalle = true;
-        console.log(data);
+        // console.log(data);
         $scope.detalle = data;
         $scope.show_panel = false;
-    }
+    };
+
     $scope.return = function(){
         $scope.show_detalle = false; 
         $scope.show_panel = true;
-    }
-    $scope.clearMarkers = function() {
-        for (var i = 0; i < marker.length; i++) {
-          marker[i].setMap(null);
-        }
-        marker = [];
-      }
+    };
  
 }]); 
 model.directive('tooltip', function(){

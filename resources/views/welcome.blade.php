@@ -21,9 +21,21 @@
                         <a href="#!" ng-click="location()" class="btn btn-secondary btn-ms mb-1 pl-2 pr-2 pt-1 pb-1 mr-3" title="Localizame" ng-if="disable_button == false" disabled><img width="20px" src="{{url()}}/assets/app/images/geo_me.svg"></a>
                         <a href="#!" class="btn btn-secondary btn-ms mb-1 pl-2 pr-2 pt-1 pb-1 mr-3" title="Localizame" ng-if="disable_button == true" disabled><img width="20px" src="{{url()}}/assets/app/images/position_actual.png"></a>
                     </li>
+                    <!-- <a href="" class="btn" for="1" ng-click="toggle_Marker(1)"> Hospitales</a> -->
                     <li ng-repeat="serv in data_load_services">
-                        <a href="#!" class="btn btn-secondary btn-ms mb-1 pl-2 pr-2 pt-1 pb-1 mr-1" ng-click="return_services(serv.id)" title="@{{serv.nombre}}" ><img width="20px" ng-src="@{{ serv.icon }}" ></a>
+                        <a href="#!" class="btn btn-secondary btn-ms mb-1 pl-2 pr-2 pt-1 pb-1 mr-1" ng-click="toggle_Marker(serv.id)" title="@{{serv.nombre}}" ><img width="20px" ng-src="@{{ serv.icon }}" ></a> 
+                        
+                        <label for="@{{serv.id}}">@{{serv.nombre}}</label>
+                        <!-- <img for="@{{serv.id}}" width="20px" ng-src="@{{ serv.icon }}" > -->
+                        <input type="checkbox" id="@{{serv.id}}" ng-click="toggle_Marker(serv.id)" checked>
+                    
                     </li> 
+                    <!-- <div class="ui-block-a">
+                        <label for="1">Hospital</label>
+                            <input type="checkbox" id="3" ng-click="toggleGroup(2)" checked>
+                        <label for="5">Banco</label>
+                            <input type="checkbox" id="5" ng-click="toggleGroup(1)" checked>
+                    </div> -->
                 </ul>
             </div>
         </div>
@@ -111,7 +123,8 @@
 
                 </section>  
                 <!-- <div id="directions_panel" style="float:right; overflow: auto; width:100%; height: 100%;"></div> -->
-                <div class="col-lg-12 col-md-6 pl-0 pr-0" ng-repeat="d in data_load" ng-if="show_panel == true"> 
+                 
+                <div class="col-lg-12 col-md-6 pl-0 pr-0" ng-repeat="d in data_real" ng-if="show_panel == true"> 
                     <div class="card p-1 pl-3 pr-3 bg-faded mb-2">
                         <a href="javascript:void(0)" ng-mouseover="markers_hover(d.lat,d.lng,d.foto,d.nombre_empresa,d.direccion)" ng-click="show_marker(d)">
                             <div class="media p-2"><img class="avatar avatar-md" ng-src="@{{d.foto}}" alt="">
@@ -263,7 +276,7 @@
 </div>
 @endsection
 @section('javascript')
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSJG8JkNJ3i7pyHZz1gC1TYVUicm3C3sE&libraries=places&callback"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSJG8JkNJ3i7pyHZz1gC1TYVUicm3C3sE&callback"></script>
 <script src="{{ url() }}/assets/app/js/angular/Ubicaciones_Front.js"></script>
 <!-- <script src="{{ url('') }}/assets/scripts/storeJs/Services/indexServices.js"></script> -->
 
