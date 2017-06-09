@@ -124,7 +124,7 @@
                 </section>  
                 <!-- <div id="directions_panel" style="float:right; overflow: auto; width:100%; height: 100%;"></div> -->
                  
-                <div class="col-lg-12 col-md-6 pl-0 pr-0" ng-repeat="d in data_real" ng-if="show_panel == true"> 
+                <div class="col-lg-12 col-md-6 pl-0 pr-0" ng-repeat="d in data_real" ng-if="show_panel == true" id="@{{d.id}}-@{{d.id_services}}"> 
                     <div class="card p-1 pl-3 pr-3 bg-faded mb-2">
                         <a href="javascript:void(0)" ng-mouseover="markers_hover(d.lat,d.lng,d.foto,d.nombre_empresa,d.direccion)" ng-click="show_marker(d)">
                             <div class="media p-2"><img class="avatar avatar-md" ng-src="@{{d.foto}}" alt="">

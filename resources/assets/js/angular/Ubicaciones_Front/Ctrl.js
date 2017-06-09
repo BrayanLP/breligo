@@ -232,7 +232,7 @@ model.controller('Ctrl',
                 for (var i = $scope.data_load.length; i--;){ 
                     if(parseFloat( $scope.getKilometros( $scope.posicion_actual.lat, $scope.posicion_actual.lng, $scope.data_load[i].lat, $scope.data_load[i].lng)) <= 1){   
                         $scope.data_real.push($scope.data_load[i]);
-                        console.log($scope.data_real);
+                        // console.log($scope.data_real);
                         $scope.$digest();
                         // var min = Math.min.apply(null, array);
                         // console.log(i +' el minimo es: '+ min);
@@ -290,11 +290,24 @@ model.controller('Ctrl',
         }
          
     }
+    /* permite mostra y ocultar los marcadores y actualizar el listado */
     $scope.toggle_Marker = function(id){ 
-        console.log(id);
+        console.log("Ingreso el ID: "+id);
         $scope.id = document.getElementById(id);;
         $scope.id.checked = !$scope.id.checked; 
         if($('#'+id).is(':checked')){
+            for(var i = $scope.data_real.length; i--;){ 
+                if($scope.data_real[i].id_services === id){  
+                    var variable = '#'+$scope.data_real[i].id+'-'+id;
+                    $(variable).show();
+                    // $scope.del_temp($scope.data_real.indexOf($scope.data_real[i]));   
+                }
+                else{
+                    console.log("=============");
+                    console.log($scope.data_real[i].id_services);
+                    console.log("============="); 
+                }
+            }
             for(var i = 0; i < $scope.new_marker.length; i++){
                 if($scope.new_marker[i].type === id){ 
                     $scope.new_marker[i].setVisible(true);
@@ -303,17 +316,35 @@ model.controller('Ctrl',
             }
         }
         else{
-            for(var i = 0; i < $scope.new_marker.length; i++){
-                if($scope.new_marker[i].type === id){ 
-                    $scope.new_marker[i].setVisible(false);
-                    
+            for(var i = $scope.data_real.length; i--;){ 
+                if($scope.data_real[i].id_services === id){ 
+                    var variable = '#'+$scope.data_real[i].id+'-'+id;
+                    $(variable).hide();
+                    // $scope.del_temp($scope.data_real.indexOf($scope.data_real[i]));   
+                }
+                else{
+                    console.log("=============");
+                    console.log($scope.data_real[i].id_services);
+                    console.log("============="); 
                 }
             }
+            for(var j = 0; j < $scope.new_marker.length; j++){
+                if($scope.new_marker[j].type === id){ 
+                    $scope.new_marker[j].setVisible(false); 
+                }
+                else{
+                    // console.log("-- no se elimino --: "+$scope.data_real[i].id_services);   
+                } 
+            }
         }
+        // $scope.$digest();
     }
     // Elimina 1 x 1 cada dato que no esta en el rango
     $scope.del = function(index){  
         $scope.data_load.splice(index,1);  
+    };
+    $scope.del_temp = function(index){  
+        $scope.data_real.splice(index,1);  
     };
     // Hace un recorrido al array de marcadores
     $scope.setMapOnAll = function(map) {
@@ -341,73 +372,79 @@ model.controller('Ctrl',
     
     
     $scope.createMarker = function(map) {  
-        for (var i = 0; i < $scope.data_load.length; i++) {  
-            var beach = $scope.data_load[i]; 
-            var pos = {
-              lat: parseFloat(beach.lat),
-              lng: parseFloat(beach.lng)
-            }; 
-            if(beach.id_services === 1){
-                var image = { 
-                    url: '//localhost:3000/assets/app/images/banco.svg', 
-                    scaledSize: new google.maps.Size(20, 20), 
-                    origin: new google.maps.Point(0, 0), 
-                    anchor: new google.maps.Point(0, 0),
-                    scale: 1
-                };  
-            } 
-            else if(beach.id_services === 2){
-                var image = { 
-                    url: '//localhost:3000/assets/app/images/comisaria.svg', 
-                    scaledSize: new google.maps.Size(20, 20),  
-                    origin: new google.maps.Point(0, 0), 
-                    anchor: new google.maps.Point(0, 0),
-                    scale: 1
-                };  
-            }
-            else if(beach.id_services === 3){
-                var image = { 
-                    url: '//localhost:3000/assets/app/images/hospital.svg', 
-                    scaledSize: new google.maps.Size(20, 20),  
-                    origin: new google.maps.Point(0, 0), 
-                    anchor: new google.maps.Point(0, 0),
-                    scale: 1
-                };  
-            }
-            else if(beach.id_services === 4){
-                var image = { 
-                    url: '//localhost:3000/assets/app/images/comisaria.svg', 
-                    scaledSize: new google.maps.Size(20, 20),  
-                    origin: new google.maps.Point(0, 0), 
-                    anchor: new google.maps.Point(0, 0),
-                    scale: 1
-                };  
-            }
-            else if(beach.id_services === 5){
-                var image = { 
-                    url: '//localhost:3000/assets/app/images/comisaria.svg', 
-                    scaledSize: new google.maps.Size(20, 20),  
-                    origin: new google.maps.Point(0, 0), 
-                    anchor: new google.maps.Point(0, 0),
-                    scale: 1
-                };  
-            }
-            else{
-                console.log("Ocurrio un error inesperado en los ID "+beach.id_services+" de Entidades");
-            } 
-            var marker = new google.maps.Marker({
-                position: pos,
-                map: map,
-                animation: google.maps.Animation.DROP, 
-                draggable: false,
-                icon: image,
-                type: beach.id_services,
+        if($scope.data_load != undefined){
+            for (var i = 0; i < $scope.data_load.length; i++) {  
+                var beach = $scope.data_load[i]; 
+                var pos = {
+                  lat: parseFloat(beach.lat),
+                  lng: parseFloat(beach.lng)
+                }; 
+                if(beach.id_services === 1){
+                    var image = { 
+                        url: '//localhost:3000/assets/app/images/banco.svg', 
+                        scaledSize: new google.maps.Size(20, 20), 
+                        origin: new google.maps.Point(0, 0), 
+                        anchor: new google.maps.Point(0, 0),
+                        scale: 1
+                    };  
+                } 
+                else if(beach.id_services === 2){
+                    var image = { 
+                        url: '//localhost:3000/assets/app/images/comisaria.svg', 
+                        scaledSize: new google.maps.Size(20, 20),  
+                        origin: new google.maps.Point(0, 0), 
+                        anchor: new google.maps.Point(0, 0),
+                        scale: 1
+                    };  
+                }
+                else if(beach.id_services === 3){
+                    var image = { 
+                        url: '//localhost:3000/assets/app/images/hospital.svg', 
+                        scaledSize: new google.maps.Size(20, 20),  
+                        origin: new google.maps.Point(0, 0), 
+                        anchor: new google.maps.Point(0, 0),
+                        scale: 1
+                    };  
+                }
+                else if(beach.id_services === 4){
+                    var image = { 
+                        url: '//localhost:3000/assets/app/images/comisaria.svg', 
+                        scaledSize: new google.maps.Size(20, 20),  
+                        origin: new google.maps.Point(0, 0), 
+                        anchor: new google.maps.Point(0, 0),
+                        scale: 1
+                    };  
+                }
+                else if(beach.id_services === 5){
+                    var image = { 
+                        url: '//localhost:3000/assets/app/images/comisaria.svg', 
+                        scaledSize: new google.maps.Size(20, 20),  
+                        origin: new google.maps.Point(0, 0), 
+                        anchor: new google.maps.Point(0, 0),
+                        scale: 1
+                    };  
+                }
+                else{
+                    console.log("Ocurrio un error inesperado en los ID "+beach.id_services+" de Entidades");
+                } 
+                var marker = new google.maps.Marker({
+                    position: pos,
+                    map: map,
+                    animation: google.maps.Animation.DROP, 
+                    draggable: false,
+                    icon: image,
+                    type: beach.id_services,
 
-            }); 
-            $scope.new_marker.push(marker); 
-            $scope.markers_hover(marker); 
+                }); 
+                $scope.new_marker.push(marker); 
+                $scope.markers_hover(marker); 
+            }
         }
-        console.log($scope.new_marker);
+        else{
+            alert('Ocurrio un error al cargar');
+
+        }
+        // console.log($scope.new_marker);
         //cierra el infowindow una vez cambie
         infoWindow.close();
     } 
