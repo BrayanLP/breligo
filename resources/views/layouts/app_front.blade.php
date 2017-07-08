@@ -55,7 +55,7 @@
   var baseUrl = "{{ url('') }}";
 </script>  
 <script src="{{url()}}/assets/app/js/admin/angular.js"></script>
-<script src="{{url()}}/assets/app/js/admin/jquery.js"></script>
+<script src="{{url()}}/assets/app/js/admin/jquery.js"></script> 
 <script src="{{url()}}/assets/app/js/admin/tether.js"></script>
 <script src="{{url()}}/assets/app/js/admin/bootstrap.js"></script>
 <script src="{{url()}}/assets/app/js/admin/jquery-slimscroll.js"></script>
@@ -69,6 +69,7 @@
 <script src="{{url()}}/assets/app/js/admin/menu.js"></script>  
 <!-- theme customizer -->
 <script src="{{url()}}/assets/app/js/admin/theme-customizer.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.1/angular-sanitize.min.js"></script>
  
 @yield('javascript')
 

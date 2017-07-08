@@ -35,7 +35,8 @@
                         <i class="zmdi zmdi-plus mr-1 text-success"></i>
                         <span>Agregar</span>
                     </a>
-                </li>
+                </li> 
+                <a href="#!" ng-click="cargar_agentes()">Crear Agentes</a>
             </ul>
         </div>
         <!-- /.breadcrumb -->
@@ -68,13 +69,13 @@
         <table class="table table-centered table-hover table-striped table-bordered">
             <thead>
                 <tr>
-                    <th width="5%">#</th> 
-                    <th width="6%">Tipo</th>
+                    <th width="1%">#</th> 
+                    <th width="3%">Tipo</th>
                     <th width="10%">Nombre</th>
                     <!-- <th width="10%">Dirección</th> -->
                     <th width="3%">Telefono</th>
-                    <th width="10%">Correo</th> 
-                    <th width="6%">Acciones</th>
+                    <!-- <th width="10%">Correo</th>  -->
+                    <th width="2%">Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -82,8 +83,11 @@
                     <th scope="row"> 
                         <span ng-bind="$index + 1"></span>
                     </th>
-                    <td>
-                        <span ng-bind="d.id_services"></span>
+                    <td ng-if="d.id_services == 1"> 
+                        <img width="20px" ng-src="//localhost:3000/assets/app/images/banco.svg" src="//localhost:3000/assets/app/images/banco.svg">
+                    </td>
+                    <td ng-if="d.id_services == 4"> 
+                        <img width="20px" ng-src="//localhost:3000/assets/app/images/bomberos.svg" src="//localhost:3000/assets/app/images/bomberos.svg">
                     </td>
                     <td>
                         <span ng-bind="d.nombre_empresa"></span>
@@ -94,9 +98,9 @@
                     <td>
                         <span ng-bind="d.telefono_1"></span>
                     </td>
-                    <td>
+                    <!-- <td>
                         <span ng-bind="d.correo"></span>
-                    </td> 
+                    </td>  -->
                     <td>
                         <a href="#!" class="btn-sm" ng-click="show(d.id)"  data-toggle="modal" data-target="#see">
                             <span class="fa fa-eye"></span>
@@ -136,10 +140,8 @@
 </div>
 @endsection
 @section('javascript')
+<script src="{{ url() }}/assets/app/js/admin/angular-uuid.js"></script>
 <script src="{{ url() }}/assets/app/js/angular/Ubicaciones.js"></script>
 <!-- <script src="{{ url('') }}/assets/scripts/storeJs/Services/indexServices.js"></script> -->
-<script type="text/javascript">
-    
-</script> 
  
 @endsection

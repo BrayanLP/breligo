@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Locations extends Model
 {
     protected $table = 'Locations';
-    protected $fillable = ['nombre_empresa','direccion','horario','telefono_1','telefono_2','correo','descripcion','lat','lng','foto','extract','id_services'];
+    protected $fillable = ['nombre_empresa','nombre_temp','direccion','horario','telefono_1','telefono_2','correo','descripcion','lat','lng','foto','extract','id_services'];
     public function scopeName($query, $name){
-        // dd('scope: '.$name);
-        if(trim($name) != ""){
-        	$query->where('nombre_empresa','LIKE',"%$name%");
+        if(trim($name) != ""){ 
+            // dd('scope: '.$name);
+            $query->where('nombre_temp','LIKE',"%$name%");       
     	}
     }
     // debe ser si o si de 2 a mas personas ??

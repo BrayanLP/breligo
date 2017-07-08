@@ -54,14 +54,12 @@ class LocationsController extends Controller
     {
         $rules = array( 
             'nombre_empresa' => 'required|unique:locations', 
-            'telefono_1' => 'AlphaDash|Max:9|Min:9',
-            'telefono_2' => 'AlphaDash|Max:9|Min:9',
+            // 'telefono_1' => 'required', 
+            'id_image' => 'required', 
             'correo' => 'Email',
             'lat' => 'required',
-            'lng' => 'required',
-            'foto' => 'required',
-            'direccion' => 'required', 
-            'extract' => 'required|Max:60', 
+            'lng' => 'required', 
+            'direccion' => 'required',  
             'id_services' => 'required'
         );
         $validator = Validator::make($request->all(), $rules);
@@ -73,6 +71,8 @@ class LocationsController extends Controller
         else{
             $location  = new \App\Locations();
             $location->nombre_empresa = $request->nombre_empresa;
+            $location->id_image = $request->id_image;
+            $location->nombre_temp = $request->nombre_temp;
             $location->descripcion = $request->descripcion;
             $location->telefono_1 = $request->telefono_1;
             $location->telefono_2 = $request->telefono_2;
@@ -81,13 +81,13 @@ class LocationsController extends Controller
             $location->lng = $request->lng;
             $location->foto = $request->foto;   
             $location->direccion = $request->direccion;
-            $location->nombre_direccion = $request->nombre_direccion;
+            // $location->nombre_direccion = $request->nombre_direccion;
             $location->extract = $request->extract;
-            $location->visible = $request->visible;
-            $location->status = $request->status;
+            $location->horario = $request->horario;
+            // $location->status = $request->status;
             $location->id_services = $request->id_services;
-            $location->created_at = $request->created_at;
-            $location->updated_at = $request->updated_at; 
+            // $location->created_at = $request->created_at;
+            // $location->updated_at = $request->updated_at; 
 
 
             $location->save();
@@ -135,16 +135,16 @@ class LocationsController extends Controller
     public function update(Request $request, $id)
     {
         $rules = array( 
-            'nombre_empresa' => 'required|unique:locations', 
-            'telefono_1' => 'AlphaDash|Max:9|Min:9',
-            'telefono_2' => 'AlphaDash|Max:9|Min:9',
-            'correo' => 'Email',
-            'lat' => 'required',
-            'lng' => 'required',
-            'foto' => 'required',
-            'direccion' => 'required', 
-            'extract' => 'required|Max:60', 
-            'id_services' => 'required'
+            // 'nombre_empresa' => 'required|unique:locations', 
+            // 'telefono_1' => 'AlphaDash|Max:9|Min:9',
+            // 'telefono_2' => 'AlphaDash|Max:9|Min:9',
+            // 'correo' => 'Email',
+            // 'lat' => 'required',
+            // 'lng' => 'required',
+            // 'foto' => 'required',
+            // 'direccion' => 'required', 
+            // 'extract' => 'required|Max:60', 
+            // 'id_services' => 'required'
         );
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
@@ -154,22 +154,22 @@ class LocationsController extends Controller
         }
         else{
             $location  = \App\Locations::find($id);
-            $location->nombre_empresa = $request->nombre_empresa;
-            $location->descripcion = $request->descripcion;
-            $location->telefono_1 = $request->telefono_1;
-            $location->telefono_2 = $request->telefono_2;
-            $location->correo = $request->correo;
-            $location->lat = $request->lat;
-            $location->lng = $request->lng;
+            // $location->nombre_empresa = $request->nombre_empresa;
+            // $location->descripcion = $request->descripcion;
+            // $location->telefono_1 = $request->telefono_1;
+            // $location->telefono_2 = $request->telefono_2;
+            // $location->correo = $request->correo;
+            // $location->lat = $request->lat;
+            // $location->lng = $request->lng;
             $location->foto = $request->foto;   
-            $location->direccion = $request->direccion;
-            $location->nombre_direccion = $request->nombre_direccion;
-            $location->extract = $request->extract;
-            $location->visible = $request->visible;
-            $location->status = $request->status;
-            $location->id_services = $request->id_services;
-            $location->created_at = $request->created_at;
-            $location->updated_at = $request->updated_at; 
+            // $location->direccion = $request->direccion;
+            // $location->nombre_direccion = $request->nombre_direccion;
+            // $location->extract = $request->extract;
+            // $location->visible = $request->visible;
+            // $location->status = $request->status;
+            // $location->id_services = $request->id_services;
+            // $location->created_at = $request->created_at;
+            // $location->updated_at = $request->updated_at; 
 
 
             $location->save();

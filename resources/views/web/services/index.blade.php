@@ -20,7 +20,7 @@
                     </a>
                 </li>
                 <li class="breadcrumb-item active">
-                    <a href="javascript:void(0);">Servicios</a>
+                    <a href="javascript:void(0);">Entidades</a>
                 </li>
             </ol>
             <ul class="breadcrumb-btns">

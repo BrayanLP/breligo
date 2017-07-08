@@ -43,19 +43,19 @@
                             <input type="text" class="form-control" id="correo" ng-model="create.correo" required> 
                         </div> 
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-4">
                         <div class="form-group">
                             <label for="nombre">Latitud *</label>
                             <input type="text" class="form-control" id="lat" ng-model="create.lat" required> 
                         </div> 
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-4">
                         <div class="form-group">
                             <label for="nombre">Longitude *</label>
                             <input type="text" class="form-control" id="lng" ng-model="create.lng" required> 
                         </div> 
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-4">
                         <div class="form-group">
                             <label for="nombre">Foto *</label>
                             <input type="text" class="form-control" id="foto" ng-model="create.foto" required> 

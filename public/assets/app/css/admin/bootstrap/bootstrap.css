@@ -4021,7 +4021,7 @@ button.close {
   bottom: 0;
   left: 0;
   z-index: 1040;
-  background-color: rgba(57, 82, 123, 0.5); }
+  background-color: rgba(0, 0, 0, 0.71); }
   .modal-backdrop.fade {
     opacity: 0; }
   .modal-backdrop.show {

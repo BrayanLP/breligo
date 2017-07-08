@@ -16,6 +16,7 @@
     "laravel-elixir-browsersync2": "^0.1.0"
   },
   "dependencies": {
+    "angular-uuid": "0.0.4",
     "bootstrap-sass": "^3.0.0",
     "del": "^2.2.2",
     "laravel-elixir": "^4.0.0",

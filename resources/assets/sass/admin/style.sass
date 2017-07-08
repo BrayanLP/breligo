@@ -1,17 +1,106 @@
 @charset "UTF-8"
 /*   UPDATE 16/APRIL/2017   */
 
+.cont-header-search
+  background: #31466a
+  height: 150px
+  > div
+    margin-right: 0
+    margin-left: 0
+    ul
+      margin-bottom: 0 
+      margin-top: 1rem
+      li
+        display: inline-block
+        list-style: none
+        padding: 0 0.5rem
+        color: #fff
+        font-size: 20px
+        width: 35px
+        text-align: center
+    a
+      span
+        color: #fff
+    > div:nth-child(4) 
+      padding: 1rem 0
+      input
+        background: transparent
+        border: 0px
+        border-bottom: 1px solid #fff
+        color: #fff
+        border-radius: 0px
+        padding: .5rem 0
+#directions_panel
+  overflow: auto
+  width: 100% 
+  top: 150px
+  position: relative
+  .row
+    margin-right: 0
+    margin-left: 0
+    > div
+      border-top: 1px solid #e6e6e6
+      border-bottom: 1px solid #e6e6e6
+      padding-top: 1rem
+      padding-bottom: 1rem
+      span
+        font-size: 20px
+        color: #b1b1b1
+        text-align: center
+        display: block
+      h4
+        font-size: 16px
+        color: #3a3a3a
+      h5
+        color: #b1b1b1
+        font-size: 12px
+        font-weight: 100
+      a
+        font-weight: bold
+        text-transform: uppercase
+        font-size: 13px
+    > div:nth-child(3)
+      padding-left: 0 
+      text-align: right
+#detalle_distancia
+  // position: absolute
+  >div.row:nth-child(1)
+    background: #31466a
+    
+  > div.row
+    >div:nth-child(1)
+      padding-left: 0
+      padding-right: 0
+    >div:nth-child(2)
+
+      a
+        font-size: 12px
+        text-align: center
+        padding-top: 1rem
+        span
+          color: #fff
+
+      h6
+        font-size: 12px
+        font-weight: 100
+        color: #fff
+        b
+          font-weight: 400
+  >div:nth-child(n+2)
+    padding-left: 15px
+    padding-right: 15px
+
 #mapa
-  width: 95.4%
+  width: 100%
   height: 100% 
   position: absolute  
   top: 0 
-  left: 64px 
+  // left: 64px 
   z-index: 90
 .mapa-60
-  width: 65.3% !important
+  width: 70% !important
 .mapa-90
-  width: 95.4% !important
+  width: 100% !important
 .buttons
   position: fixed  
   z-index: 999
@@ -24,9 +113,12 @@
       display: inline-block
 body
   height: 100%
- 
+.hidden
+  display: none
+.p0
+  padding: 0 !important
 .full-container
-  /* display: block; */
+  display: block;
   position: absolute 
   background: blue
   height: 100%
@@ -40,15 +132,21 @@ body
   background: orange
 
 .ubicaciones
-  overflow-y: scroll
+  overflow-y: auto
   height: 605px
   position: absolute 
-  transition: 0.5s all  
+  transition: 0.5s all
+  width: 100%
+  // padding: 1rem
+
   .text-ubicacion
     display: block
     text-align: center
     padding: 1rem 0 0.5rem 0
-
+.cont-ubicacion 
+  
+.cont-ubicacion:hover
+  background: #e6e6e6
 .slide_sidebar
   // background: red
   width: 30%
@@ -56,7 +154,7 @@ body
   position: absolute
   top: 0
   right: -35%
-  z-index: 1000
+  z-index: 998
   transition: 0.3s all
   .cont-user
     position: absolute 
@@ -79,8 +177,51 @@ body
   left: 50%
   transform: translate(-50%,-10px)
 .right-move
-  left: 30%
-  transform: translate(-30%,-10px)
+  left: 35%
+  transform: translate(-50%,-65%)
+
+.cont-direc
+  position: absolute
+  top: 0px
+  right: 0px
+  // background: red
+  width: 41%
+  z-index: 999 
+  .cont-user
+    width: 27% 
+    float: left
+  .cont-search
+    width: 73% 
+    float: left 
+    .cont-info
+      line-height: 45px
+      height: 45px
+      border-radius: 3px 3px 0 0
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2), 0 -1px 0px rgba(0,0,0,0.02)
+      margin: 4px 1rem;
+      background: #fff
+      .row
+        margin: 0px !important
+      input
+        border: 0px solid
+        height: 100%
+      a
+        display: inline-block
+        padding: 0 1.2rem
+        position: relative 
+        &.line-horizontal:before
+          background: gray
+          content: ''
+          position: absolute
+          width: 1px
+          height: 70%
+          right: 0
+          top: 50%
+          transform: translate(0,-50%)
+
+        span
+          font-size: 18px
+          color: gray
 .gm-style-iw
   width: 200px !important
   top: 25px !important
@@ -139,6 +280,9 @@ section.detalle
         height: 50px
         &:hover
           color: #39527b
+      span
+        font-size: 14px
+        display: block
   .body_detalle
     width: 100%
     float: left
@@ -150,13 +294,49 @@ section.detalle
         padding: 1rem
         li
           list-style: none
+          float: left
+          width: 100%
+          display: block
           span
-            display: inline-block
-          p
-            display: inline-block
+            float: left
+            font-size: 19px
+            width: 2%
+          p 
+            float: left
             margin: 0
-            padding: 0
+            padding: 0 0 0 1rem
             color: #868686
+            width: 98%
+/* BUSCADOR DEL MAPA */
+.lista_resultados
+  background: #fff
+  width: 100%
+  padding: 0
+  margin: 0
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2), 0 -1px 0px rgba(0,0,0,0.02)
+  max-height: 180px 
+  overflow: hidden
+  li
+    width: 100%
+    display: block
+    padding: 0
+    border-top: 1px solid #e0e0e0
+    &:hover
+      background: #e0e0e0
+    a
+      display: block !important
+      padding: 0.6rem 1rem !important
+      height: 35px
+      line-height: 100%
+      i
+        display: inline-block
+        font-size: 16px
+        padding: 0 1rem 0 0
+        // color: #e0e0e0
+      span
+        display: inline-block
+        font-size: 15px !important
+
 /* FIN UPDATE 16/APRIL/2017 */
 .h1, .h2, .h3, h1, h2, h3
   font-weight: 300

@@ -1,20 +1,24 @@
 (function () {
 'use strict';
 var model = angular.module('model', 
-    ['Services' ]);
+    ['Services',"angular-uuid"]);
 
 var seletedValue = 15;
 
 model.controller('Ctrl', 
-    ['$scope',
+    [
+    '$scope',
     '$http',
     '$timeout',
-    'Services', 
-    function(
+    'Services',
+    'uuid',  
+    function( 
         $scope,
         $http,
         $timeout,
-        Services)
+        Services,
+        uuid
+        )
 {  
     var html = function(id) { 
         return document.getElementById(id); 
@@ -22,7 +26,8 @@ model.controller('Ctrl',
 
     $scope.temp = [];
     $scope.cant_rows = "10";
-    
+    // var hash = uuid.v4();
+    // console.log(hash);
     $scope.load = function(q,p,page){
         if(q == undefined){ 
             q = "";
@@ -49,7 +54,7 @@ model.controller('Ctrl',
 
     $scope.array = ['cant_rows','search_text'];
     $scope.$watchGroup($scope.array, function(n){
-        console.log(n);
+        // console.log(n);
         if(n != undefined){
             $scope.load($scope.search_text,$scope.cant_rows,1);
         }
@@ -256,6 +261,105 @@ model.controller('Ctrl',
     //     $scope.show_detalle = false; 
     //     $scope.show_panel = true;
     // }
+    $scope.guardar = function (data){  
+        Services.Create(data).then(function (response) {
+            console.log(response);
+            // $scope.init();
+        }, function (response) {
+        });
+    };
+    $scope.create_bomberos = function(){
+        Services.load_bomberos().then(function (response) {
+            console.log(response);
+            $scope.temp_data = [];
+            $scope.results = response; 
+            angular.forEach($scope.results, function(value){
+                var obj = {
+                    nombre_temp : "Bomberos "+value.nombre,
+                    id_image : uuid.v4(),
+                    nombre_empresa : value.nombre,
+                    direccion: value.direccion,
+                    horario: 'Las 24 horas',
+                    telefono_1: value.telefonos, 
+                    correo: value.correo, 
+                    lat: value.Lat,
+                    lng: value.Long, 
+                    id_services: 4,
+                    url: value.link_web
+
+                }
+                $scope.temp_data.push(obj);
+                $scope.guardar(obj);
+                
+            }) 
+            console.log($scope.temp_data);
+            // $scope.temp.push($scope.data_load);  
+        }, function (response) {
+        });
+    }
+    
+
+    $scope.cargar_agentes = function(){
+        Services.load_agentes().then(function (response) {
+            // console.log(response);
+            $scope.temp_data = [];
+            $scope.results = response.data; 
+            angular.forEach($scope.results, function(value){
+                var foto = 'https://maps.googleapis.com/maps/api/streetview?size=606x400&location='+value._lat+','+value._lng+'&pitch=-0.76&key=AIzaSyDSJG8JkNJ3i7pyHZz1gC1TYVUicm3C3sE';
+                var obj = {
+                    nombre_temp : "Agentes Agente Banco de la Nación - "+value._establecimiento,
+                    id_image : uuid.v4(),
+                    nombre_empresa : value._establecimiento,
+                    direccion: value._dir,
+                    horario: 'Sujeto a horario del local',
+                    telefono_1: '', 
+                    foto: foto,
+                    correo: value.correo, 
+                    lat: value._lat,
+                    lng: value._lng, 
+                    id_services: 1,
+                    url: value.link_web
+
+                }
+                $scope.temp_data.push(obj);
+                // $scope.guardar(obj);
+                
+            }) 
+            console.log($scope.temp_data);
+            // $scope.temp.push($scope.data_load);  
+        }, function (response) {
+        });
+    } 
+    // $scope.cargar_agentes();
+
+    $scope.banco = function(){
+        Services.banco().then(function (response) {
+            console.log(response.data);
+        });
+    }
+    $scope.agentes = function(){
+        Services.agentes().then(function (response) {
+            console.log(response.data);
+        });
+    }
+    $scope.cajero = function(){
+        Services.cajero().then(function (response) {
+            console.log(response);
+        });
+    }
+
+
+    // function geocodeResult(results, status) { 
+    //     if (status == 'OK') {    
+    //         var markerOptions = results[0].geometry.location;
+    //     } else {
+    //         // En caso de no haber resultados o que haya ocurrido un error
+    //         // lanzamos un mensaje con el error
+    //         alert("Geocoding no tuvo éxito debido a: " + status);
+    //     }
+    // }
+    // $scope.cajero();
+    // $scope.create_bomberos();
  
 }]);
 })();

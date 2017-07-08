@@ -6,7 +6,10 @@
     "type": "project",
     "require": {
         "php": ">=5.5.9",
-        "laravel/framework": "5.1.*"
+        "laravel/framework": "5.1.*",
+        "webpatser/laravel-uuid": "2.*",
+        "alsofronie/eloquent-uuid": "dev-master",
+        "emadadly/laravel-uuid": "1.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

@@ -32,7 +32,50 @@ angular.module('Services', [])
             return $http.delete(base_url +'/api/v1/locations/'+id).then(function (response){
                 return response.data;
             });
-        } 
+        } ,
+        load_bomberos: function(){
+            return $http.get('http://www.bomberosperu.gob.pe/WcfServiceForInsert/CdService.svc/CiasById/225000').then(function (response){  
+                console.log(response.data);
+                return response.data;
+            });
+        },
+        // agencia: function(){
+        //     return $http.get('http://www.bn.com.pe/canales-atencion/base-datos/agencias.asp').then(function (response){  
+        //         // console.log(response);
+        //         return response;
+        //     });
+        // },
+        cajero: function(){
+            return $http.get('http://www.bn.com.pe/canales-atencion/base-datos/cajeros.asp').then(function (response){  
+                console.log(response);
+                return response;
+            });
+        }
+
+        // , 
+        // agentes: function(){
+        //     return $http.get('http://www.bn.com.pe/canales-atencion/base-datos/agentes.asp').then(function (response){  
+        //         // console.log(response);
+        //         return response;
+        //     });
+        // }
+        ,
+        load_hospitales: function(){
+            return $http.get('http://grupoaizen.com/hospitales.json').then(function (response){  
+                console.log(response);
+                return response;
+            });
+        },
+        load_agentes: function(){
+            return $http.get('http://grupoaizen.com/banco_nacion_agentes.json').then(function (response){  
+                console.log(response);
+                return response;
+            });
+        }
+        
+        
+        
+        
     };
 }); 
 })();

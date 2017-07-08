@@ -2,11 +2,9 @@
 @section('head')
 	<!-- <link rel="stylesheet" type="text/css" href="{{ url('') }}/assets/css/user/style.css"> -->
 @endsection
-@section('body') 
-	@include('partials.web.navbar') 
+@section('body')  
     <!-- /.side-panel -->
-    <div class="site-wrapper">
-        @include('partials.web.header')
+    <div class="site-wrapper"> 
         <main class="site-main"> 
             @yield('content')  
         </main>

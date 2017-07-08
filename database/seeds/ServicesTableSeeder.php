@@ -34,6 +34,13 @@ class ServicesTableSeeder extends Seeder
                 'icon' => '//localhost:3000/assets/app/images/hospital.svg',
                 'created_at'=> new DateTime,
                 'updated_at'=> new DateTime
+            ],
+            [
+                'id' => 4,
+                'nombre' => 'Bomberos',
+                'icon' => '//localhost:3000/assets/app/images/bomberos.svg',
+                'created_at'=> new DateTime,
+                'updated_at'=> new DateTime
             ]
         );
 
