@@ -1,5 +1,11 @@
 @charset "UTF-8";
 /*   UPDATE 16/APRIL/2017   */
+a[href^="http://maps.google.com/maps"] {
+  display: none !important; }
+
+a[href^="https://maps.google.com/maps"] {
+  display: none !important; }
+
 .cont-header-search {
   background: #31466a;
   height: 150px; }
@@ -173,7 +179,7 @@ body {
   right: -30%; }
 
 .show-sidebar {
-  right: 0%;
+  right: 0% !important;
   opacity: 1; }
 
 .right-auto {
@@ -187,7 +193,7 @@ body {
 .cont-direc {
   position: absolute;
   top: 0px;
-  right: 0px;
+  right: -30%;
   width: 41%;
   z-index: 999; }
   .cont-direc .cont-user {
@@ -228,7 +234,8 @@ body {
 .gm-style-iw {
   width: 200px !important;
   top: 25px !important;
-  left: 0 !important;
+  left: 50% !important;
+  transform: translate(-50%, 0);
   background: #fff;
   overflow: hidden;
   border-radius: 3px !important;
@@ -251,6 +258,36 @@ body {
     color: #fff;
     border-radius: 1rem; }
 
+section.detalle #comentarios {
+  border-top: 1px solid #e2e2e2;
+  float: left;
+  margin-top: 1rem;
+  width: 100%; }
+  section.detalle #comentarios .btn-flat-more {
+    color: #2f3e56;
+    font-weight: bold; }
+    section.detalle #comentarios .btn-flat-more:hover {
+      text-transform: underline; }
+
+section.detalle .body_detalle h2 {
+  font-size: 20px;
+  color: #848484;
+  padding: 1rem 0; }
+
+section.detalle ul {
+  list-style: none;
+  padding: 0; }
+  section.detalle ul li {
+    float: left;
+    display: block;
+    width: 100%; }
+    section.detalle ul li p {
+      float: left; }
+    section.detalle ul li span {
+      float: left;
+      font-size: 20px;
+      padding-right: 1rem; }
+
 section.detalle > a {
   background: #fff;
   padding: 0.3rem 1rem;
@@ -259,8 +296,11 @@ section.detalle > a {
   float: left;
   color: #39527b; }
 
-section.detalle > img {
-  float: left; }
+section.detalle .cont-img {
+  height: 200px;
+  overflow: hidden; }
+  section.detalle .cont-img > img {
+    float: left; }
 
 section.detalle .header_detalle {
   width: 100%;
@@ -314,11 +354,9 @@ section.detalle .body_detalle {
 
 /* BUSCADOR DEL MAPA */
 .lista_resultados {
-  background: #fff;
   width: 100%;
   padding: 0;
   margin: 0;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0px rgba(0, 0, 0, 0.02);
   max-height: 180px;
   overflow: hidden; }
   .lista_resultados li {
@@ -326,13 +364,15 @@ section.detalle .body_detalle {
     display: block;
     padding: 0;
     border-top: 1px solid #e0e0e0; }
-    .lista_resultados li:hover {
-      background: #e0e0e0; }
     .lista_resultados li a {
-      display: block !important;
-      padding: 0.6rem 1rem !important;
-      height: 35px;
-      line-height: 100%; }
+      display: inline-block !important;
+      padding: 0.5rem !important;
+      height: auto;
+      background: #fff;
+      line-height: 100%;
+      margin: 0.5rem;
+      border-radius: 1rem;
+      box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px; }
       .lista_resultados li a i {
         display: inline-block;
         font-size: 16px;

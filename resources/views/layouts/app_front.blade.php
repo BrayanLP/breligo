@@ -70,7 +70,7 @@
 <!-- theme customizer -->
 <script src="{{url()}}/assets/app/js/admin/theme-customizer.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.1/angular-sanitize.min.js"></script>
- 
+<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
 @yield('javascript')
 
 </body>

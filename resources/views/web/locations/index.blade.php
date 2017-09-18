@@ -84,10 +84,10 @@
                         <span ng-bind="$index + 1"></span>
                     </th>
                     <td ng-if="d.id_services == 1"> 
-                        <img width="20px" ng-src="//localhost:3000/assets/app/images/banco.svg" src="//localhost:3000/assets/app/images/banco.svg">
+                        <img width="20px" ng-src="//localhost:8000/assets/app/images/banco.svg" src="//localhost:8000/assets/app/images/banco.svg">
                     </td>
                     <td ng-if="d.id_services == 4"> 
-                        <img width="20px" ng-src="//localhost:3000/assets/app/images/bomberos.svg" src="//localhost:3000/assets/app/images/bomberos.svg">
+                        <img width="20px" ng-src="//localhost:8000/assets/app/images/bomberos.svg" src="//localhost:8000/assets/app/images/bomberos.svg">
                     </td>
                     <td>
                         <span ng-bind="d.nombre_empresa"></span>

@@ -15,22 +15,30 @@ class CreateLocationsTable extends Migration
         Schema::create('locations', function (Blueprint $table) {
             $table->increments('id');
             // $table->char('id', 36)->unique();
-            $table->string('id_image');
-            $table->integer('id_services')->unsigned();
+            $table->string('id_img');
+            $table->integer('id_serv')->unsigned();
             $table->string('nombre_empresa',150);
-            $table->string('nombre_temp',150); 
-            $table->string('direccion',255);
-            $table->string('telefono_1',50);
-            $table->string('horario',255)->nullable();
-            $table->string('telefono_2',50)->nullable();
-            $table->string('correo',100)->nullable();
+            // $table->string('nombre_temp',150); 
+            $table->string('direc',255);
+            $table->string('tel_1',10)->nullable();
+            $table->string('hor',255)->nullable();
+            $table->string('tel_2',10)->nullable();
+            $table->string('cor',100)->nullable();
             $table->string('url',100)->nullable(); 
-            $table->string('descripcion',255)->nullable();
+            $table->string('desc',255)->nullable();
             $table->string('lat')->nullable();
             $table->string('lng')->nullable();
             $table->string('foto',300)->nullable();
-            $table->string('extract',60)->nullable(); 
-            $table->foreign('id_services')->references('id')->on('services')->onDelete('cascade'); 
+
+            $table->string('abrev',10)->nullable();
+            $table->string('cod',10)->nullable();
+            $table->string('f_funda',20)->nullable();
+            $table->string('direc',50)->nullable();
+            $table->string('codidenest',10)->nullable();
+            $table->string('ubig',10)->nullable();
+
+            // $table->string('ext',60)->nullable(); 
+            $table->foreign('id_serv')->references('id')->on('services')->onDelete('cascade'); 
             $table->timestamps();
             $table->rememberToken();
             // $table->primary('id');

@@ -22,6 +22,15 @@ Route::get('/ubicaciones', function(){
 // Route::get('/', 'Web\Services\ServicesController@index');
 // Route::get('/', 'Web\Locations\LocationsController@index');
 
+// Authentication routes...
+Route::get('auth/login', ['as' => 'auth/login','uses'=>'Auth\AuthController@getLogin']);
+Route::post('auth/login', 'Auth\AuthController@postLogin');
+Route::get('auth/logout', ['as' => 'auth/logout','uses'=>'Auth\AuthController@getLogout']);
+
+// Registration routes...
+Route::get('auth/register', ['as' => 'auth/register','uses'=>'Auth\AuthController@getRegister']);
+Route::post('auth/register', 'Auth\AuthController@postRegister');
+
 Route::group(['prefix' => 'api/v1/'], function () {
     Route::group(['prefix' => 'services'], function(){
 	    Route::get('/','Web\Services\ServicesController@index');
