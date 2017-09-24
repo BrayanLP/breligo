@@ -93,6 +93,7 @@
                     <td>
                         <span ng-bind="d.nomb"></span>
                     </td>
+                    
                     <!-- <td>
                         <span ng-bind="d.direccion"></span>
                     </td> -->
