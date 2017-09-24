@@ -17,7 +17,7 @@ class CreateLocationsTable extends Migration
             // $table->char('id', 36)->unique();
             $table->string('id_img');
             $table->integer('id_serv')->unsigned();
-            $table->string('nombre_empresa',150);
+            $table->string('nomb',150);
             // $table->string('nombre_temp',150); 
             $table->string('direc',255);
             $table->string('tel_1',10)->nullable();
@@ -33,7 +33,7 @@ class CreateLocationsTable extends Migration
             $table->string('abrev',10)->nullable();
             $table->string('cod',10)->nullable();
             $table->string('f_funda',20)->nullable();
-            $table->string('direc',50)->nullable();
+            $table->string('dr',50)->nullable();
             $table->string('codidenest',10)->nullable();
             $table->string('ubig',10)->nullable();
 

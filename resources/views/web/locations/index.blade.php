@@ -37,6 +37,7 @@
                     </a>
                 </li> 
                 <a href="#!" ng-click="cargar_agentes()">Crear Agentes</a>
+                <a href="#!" ng-click="update_allBomberos()">Actualizar Bomberos</a>
             </ul>
         </div>
         <!-- /.breadcrumb -->
@@ -83,20 +84,20 @@
                     <th scope="row"> 
                         <span ng-bind="$index + 1"></span>
                     </th>
-                    <td ng-if="d.id_services == 1"> 
+                    <td ng-if="d.id_serv == 1"> 
                         <img width="20px" ng-src="//localhost:8000/assets/app/images/banco.svg" src="//localhost:8000/assets/app/images/banco.svg">
                     </td>
-                    <td ng-if="d.id_services == 4"> 
+                    <td ng-if="d.id_serv == 4"> 
                         <img width="20px" ng-src="//localhost:8000/assets/app/images/bomberos.svg" src="//localhost:8000/assets/app/images/bomberos.svg">
                     </td>
                     <td>
-                        <span ng-bind="d.nombre_empresa"></span>
+                        <span ng-bind="d.nomb"></span>
                     </td>
                     <!-- <td>
                         <span ng-bind="d.direccion"></span>
                     </td> -->
                     <td>
-                        <span ng-bind="d.telefono_1"></span>
+                        <span ng-bind="d.tel_1"></span>
                     </td>
                     <!-- <td>
                         <span ng-bind="d.correo"></span>

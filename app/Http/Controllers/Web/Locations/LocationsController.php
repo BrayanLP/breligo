@@ -53,14 +53,13 @@ class LocationsController extends Controller
     public function store(Request $request)
     {
         $rules = array( 
-            'nombre_empresa' => 'required|unique:locations', 
+            'nomb' => 'required|unique:locations', 
             // 'telefono_1' => 'required', 
-            'id_image' => 'required', 
-            'correo' => 'Email',
+            'id_img' => 'required', 
+            'cor' => 'Email',
             'lat' => 'required',
-            'lng' => 'required', 
-            'direccion' => 'required',  
-            'id_services' => 'required'
+            'lng' => 'required',    
+            'id_serv' => 'required'
         );
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
@@ -70,22 +69,29 @@ class LocationsController extends Controller
         }
         else{
             $location  = new \App\Locations();
-            $location->nombre_empresa = $request->nombre_empresa;
-            $location->id_image = $request->id_image;
-            $location->nombre_temp = $request->nombre_temp;
-            $location->descripcion = $request->descripcion;
-            $location->telefono_1 = $request->telefono_1;
-            $location->telefono_2 = $request->telefono_2;
-            $location->correo = $request->correo;
+            $location->id_img = $request->id_img; 
+            $location->id_serv = $request->id_serv;
+            $location->nomb = $request->nomb;
+            $location->direc = $request->direc;
+            $location->tel_1 = $request->tel_1;
+            $location->hor = $request->hor;
+            $location->tel_2 = $request->tel_2;
+            $location->cor = $request->cor;
+            $location->url = $request->url;
+            $location->desc = $request->desc;
             $location->lat = $request->lat;
             $location->lng = $request->lng;
-            $location->foto = $request->foto;   
-            $location->direccion = $request->direccion;
-            // $location->nombre_direccion = $request->nombre_direccion;
-            $location->extract = $request->extract;
-            $location->horario = $request->horario;
+            $location->foto = $request->foto;
+            
+            $location->abrev = $request->abrev;
+            $location->cod = $request->cod;
+            $location->f_funda = $request->f_funda;
+            $location->dr = $request->dr;
+            $location->codidenest = $request->codidenest;
+            $location->ubig = $request->ubig;
+
+            // $location->nombre_direccion = $request->nombre_direccion; 
             // $location->status = $request->status;
-            $location->id_services = $request->id_services;
             // $location->created_at = $request->created_at;
             // $location->updated_at = $request->updated_at; 
 

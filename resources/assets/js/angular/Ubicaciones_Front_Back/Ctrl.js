@@ -760,59 +760,59 @@ model.controller('Ctrl',
         },500);
     }
     // ESTE CODIGO CREA HOSPITALES
-    // var geocoder = new google.maps.Geocoder(); 
-    // $scope.create_hospitales = function(){
-    //     Services.load_hospitales().then(function (response) {
-    //         console.log(response.data);
-    //         $scope.temp_data = [];
-    //         $scope.results = response.data; 
-    //         angular.forEach($scope.results, function(value){
+    var geocoder = new google.maps.Geocoder(); 
+    $scope.create_hospitales = function(){
+        Services.load_hospitales().then(function (response) {
+            console.log(response.data);
+            $scope.temp_data = [];
+            $scope.results = response.data; 
+            angular.forEach($scope.results, function(value){
 
-    //             geocoder.geocode({ 'address': value.direccion}, function geocodeResult(results, status) { 
-    //                 if (status == 'OK') {    
-    //                     // console.log(results[0]);
-    //                     var lat = results[0].geometry.location.lat;
-    //                     var lng = results[0].geometry.location.lng;
-    //                     // console.log(markerOptions);
-    //                     var obj = {
-    //                         nombre_temp : "HOSPITAL "+value.nombre,
-    //                         id_image : uuid.v4(),
-    //                         nombre_empresa : value.nombre_empresa,
-    //                         direccion: value.direccion,
-    //                         horario: '',
-    //                         telefono_1: value.telefono_1, 
-    //                         correo: value.correo, 
-    //                         lat: lat,
-    //                         lng: lng, 
-    //                         id_services: 3,
-    //                         url: value.link_web
+                geocoder.geocode({ 'address': value.direccion}, function geocodeResult(results, status) { 
+                    if (status == 'OK') {    
+                        // console.log(results[0]);
+                        var lat = results[0].geometry.location.lat;
+                        var lng = results[0].geometry.location.lng;
+                        // console.log(markerOptions);
+                        var obj = {
+                            nombre_temp : "HOSPITAL "+value.nombre,
+                            id_image : uuid.v4(),
+                            nombre_empresa : value.nombre_empresa,
+                            direccion: value.direccion,
+                            horario: '',
+                            telefono_1: value.telefono_1, 
+                            correo: value.correo, 
+                            lat: lat,
+                            lng: lng, 
+                            id_services: 3,
+                            url: value.link_web
 
-    //                     }
-    //                     $scope.temp_data.push(obj);
-    //                     console.log($scope.temp_data);
+                        }
+                        $scope.temp_data.push(obj);
+                        console.log($scope.temp_data);
                         
-    //                     // $scope.guardar_hospitales(obj);
-    //                 } else {
-    //                     // En caso de no haber resultados o que haya ocurrido un error
-    //                     // lanzamos un mensaje con el error
-    //                     alert("Geocoding no tuvo éxito debido a: " + status);
-    //                 }
-    //             }); 
+                        // $scope.guardar_hospitales(obj);
+                    } else {
+                        // En caso de no haber resultados o que haya ocurrido un error
+                        // lanzamos un mensaje con el error
+                        alert("Geocoding no tuvo éxito debido a: " + status);
+                    }
+                }); 
                 
-    //         }) 
-    //         // $scope.temp.push($scope.data_load);  
-    //     }, function (response) {
-    //     });
-    // }
-    // $scope.guardar_hospitales = function (data){  
-    //     Services.Create(data).then(function (response) {
-    //         console.log(response);
-    //         // $scope.init();
-    //     }, function (response) {
-    //     });
-    // };
+            }) 
+            // $scope.temp.push($scope.data_load);  
+        }, function (response) {
+        });
+    }
+    $scope.guardar = function (data){  
+        Services.Create(data).then(function (response) {
+            console.log(response);
+            // $scope.init();
+        }, function (response) {
+        });
+    };
     // $scope.create_hospitales();
-    
+
 }]); 
 model.directive('tooltip', function(){
     return {

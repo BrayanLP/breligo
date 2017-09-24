@@ -348,6 +348,131 @@ model.controller('Ctrl',
         });
     }
 
+    var obj = [
+        {id: 'CdById/204000'},
+        {id: 'CiasById/204000'},
+        {id: 'CdById/205000'},
+        {id: 'CiasById/205000'},
+        {id: 'CdById/224000'},
+        {id: 'CiasById/224000'},
+        {id: 'CdById/225000'},
+        {id: 'CiasById/225000'} 
+    ];
+    $scope.update_allBomberos = function(){  
+        Services.Load('',300,1).then(function (response) {
+            $scope.data_load = response.data;
+            console.log($scope.data_load);
+            var create_marker = [];
+            if($scope.data_load.length > 0){ 
+                for (var j = 0; j < obj.length; j++) {  
+                    Services.allBomberos(obj[j].id).then(function(response){
+                        $scope.result = response.data; 
+                        var count = 0;
+                        for (var i = 0; i < $scope.result.length; i++) {  
+                            for (var x = 0; x < $scope.data_load.length; x++) {   
+                                if(
+                                    (parseFloat($scope.result[i].Lat) != $scope.data_load[x].lat) &&
+                                    (parseFloat($scope.result[i].Long) != $scope.data_load[x].lng) &&
+                                    ($scope.result[i].nombre != $scope.data_load[x].nomb) &&
+                                    ($scope.result[i].codbom != $scope.data_load[x].cod)
+            
+                                ){  
+                                    var lat = $scope.result[i].Lat;
+                                    var lng = $scope.result[i].Long;
+                                    var foto = 'https://maps.googleapis.com/maps/api/streetview?size=606x400&location='+lat+','+lng+'&pitch=-0.76&key=AIzaSyDSJG8JkNJ3i7pyHZz1gC1TYVUicm3C3sE'; 
+                                    var obj = {
+                                        id_img : uuid.v4(),
+                                        id_serv: 4,
+                                        nomb : $scope.result[i].nombre, 
+                                        direc: $scope.result[i].direccion,
+                                        tel_1: $scope.result[i].telefonos, 
+                                        hor: "Siempre Abierto",
+                                        tel_2: null,
+                                        cor: $scope.result[i].correo, 
+                                        url: $scope.result[i].link_web,
+                                        desc: null,
+                                        lat: $scope.result[i].Lat,
+                                        lng: $scope.result[i].Long, 
+                                        foto: foto,
+                                        abrev: $scope.result[i].abrev,
+                                        cod: $scope.result[i].codbom,
+                                        f_funda: $scope.result[i].fecha_fundacion,
+                                        dr: $scope.result[i].dr,
+                                        codidenest:$scope.result[i].codidenest,
+                                        ubig: $scope.result[i].ubigeo
+                                    }
+                                    console.log(obj.nomb);
+                                    $scope.guardar(obj); 
+                                }
+                                else{
+                                    console.log("repetidas: "+count + 1);
+                                    
+                                }   
+                            }  
+                        }
+                    }) 
+
+                    
+                } 
+            }
+            else{
+                for (var j = 0; j < obj.length; j++) {  
+                    Services.allBomberos(obj[j].id).then(function(response){
+                        $scope.result = response.data; 
+                        var count = 0;
+                        for (var i = 0; i < $scope.result.length; i++) {  
+                            // for (var x = 0; x < $scope.data_load.length; x++) {   
+                                // if(
+                                //     (parseFloat($scope.result[i].Lat) != $scope.data_load[x].lat) &&
+                                //     (parseFloat($scope.result[i].Long) != $scope.data_load[x].lng) &&
+                                //     ($scope.result[i].nombre != $scope.data_load[x].nomb) &&
+                                //     ($scope.result[i].codbom != $scope.data_load[x].cod)
+            
+                                // ){  
+                            var lat = $scope.result[i].Lat;
+                            var lng = $scope.result[i].Long;
+                            var foto = 'https://maps.googleapis.com/maps/api/streetview?size=606x400&location='+lat+','+lng+'&pitch=-0.76&key=AIzaSyDSJG8JkNJ3i7pyHZz1gC1TYVUicm3C3sE'; 
+                            var obj = {
+                                id_img : uuid.v4(),
+                                id_serv: 4,
+                                nomb : $scope.result[i].nombre, 
+                                direc: $scope.result[i].direccion,
+                                tel_1: $scope.result[i].telefonos, 
+                                hor: "Siempre Abierto",
+                                tel_2: null,
+                                cor: $scope.result[i].correo, 
+                                url: $scope.result[i].link_web,
+                                desc: null,
+                                lat: $scope.result[i].Lat,
+                                lng: $scope.result[i].Long, 
+                                foto: foto,
+                                abrev: $scope.result[i].abrev,
+                                cod: $scope.result[i].codbom,
+                                f_funda: $scope.result[i].fecha_fundacion,
+                                dr: $scope.result[i].dr,
+                                codidenest:$scope.result[i].codidenest,
+                                ubig: $scope.result[i].ubigeo
+                            }
+                            console.log(obj.nomb);
+                            $scope.guardar(obj); 
+                                // }
+                                // else{
+                                //     console.log("repetidas: "+count + 1);
+                                    
+                                // }   
+                        }  
+                        // }
+                    }) 
+
+                    
+                } 
+            }
+        })
+            
+            
+        
+    };    
+    // $scope.load_allBomberos();
 
     // function geocodeResult(results, status) { 
     //     if (status == 'OK') {    
