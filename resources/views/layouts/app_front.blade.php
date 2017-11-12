@@ -43,8 +43,7 @@
       // svg4everybody();
    </script>
 
-  @yield('head') 
-
+  @yield('head')  
 </head>
 <body class="menubar-left menubar-inverse menubar-fold" 
 @yield('body-tag')>

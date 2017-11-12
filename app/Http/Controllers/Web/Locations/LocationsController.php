@@ -18,7 +18,7 @@ class LocationsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){ 
-        $search_id  = \Request::get('id_services'); 
+        $search_id  = \Request::get('id_serv'); 
         $search     = \Request::get('nombre'); 
         $per_page   = \Request::get('per_page') ?: 100; 
         $locations  = \App\Locations::name($search)

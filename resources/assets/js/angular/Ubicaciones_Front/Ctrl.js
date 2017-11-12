@@ -103,9 +103,32 @@ model.controller('Ctrl',
     };
  
     $scope.load_services('',10,1);
-
-
+ 
+    $scope.load_amigos = function(q,p,page){
+        if(q == undefined){ 
+            q = "";
+        }  
+        Services.Load_Amigos(q,p,page).then(function (response) {
+            $scope.amigos = response.data;
+            console.log($scope.amigos);
+            $scope.to = response.to; 
+            $scope.total = response.total;
+            $scope.last_page = response.last_page;
+            $scope.current_page = response.current_page;
+            $scope.next_page_url = response.next_page_url;
+            $scope.prev_page_url = response.prev_page_url; 
+            if($scope.prev_page_url !== null) {
+                $scope.prev_page_url = $scope.prev_page_url.replace("?page=","");
+            }
+            if($scope.next_page_url !== null) {
+                $scope.next_page_url = $scope.next_page_url.replace("?page=",""); 
+            }  
+            // console.log($scope.data_load_services);
+        }, function (response) {
+        }); 
+    };   
     
+    $scope.load_amigos('',10,1);
     
     $scope.init = function(){
         // $scope.load('',200,1);

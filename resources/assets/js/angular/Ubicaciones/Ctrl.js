@@ -32,7 +32,7 @@ model.controller('Ctrl',
         if(q == undefined){ 
             q = "";
         }   
-        Services.Load(q,p,page).then(function (response) {
+        Services.Load(q,'',p,page).then(function (response) {
             $scope.data_load = response.data; 
             $scope.temp.push($scope.data_load);  
             $scope.to = response.to; 
@@ -359,11 +359,11 @@ model.controller('Ctrl',
         {id: 'CiasById/225000'} 
     ];
     $scope.update_allBomberos = function(){  
-        Services.Load('',300,1).then(function (response) {
+        Services.Load('','',300,1).then(function (response) {
             $scope.data_load = response.data;
-            console.log($scope.data_load);
+            console.log(response.data);
             var create_marker = [];
-            if($scope.data_load.length > 0){ 
+            if($scope.data_load != undefined && $scope.data_load.length > 0){ 
                 for (var j = 0; j < obj.length; j++) {  
                     Services.allBomberos(obj[j].id).then(function(response){
                         $scope.result = response.data; 
@@ -402,7 +402,7 @@ model.controller('Ctrl',
                                         ubig: $scope.result[i].ubigeo
                                     }
                                     console.log(obj.nomb);
-                                    $scope.guardar(obj); 
+                                    // $scope.guardar(obj); 
                                 }
                                 else{
                                     console.log("repetidas: "+count + 1);
@@ -416,19 +416,13 @@ model.controller('Ctrl',
                 } 
             }
             else{
+                console.log("entre");
                 for (var j = 0; j < obj.length; j++) {  
                     Services.allBomberos(obj[j].id).then(function(response){
+                        console.log(response);
                         $scope.result = response.data; 
                         var count = 0;
-                        for (var i = 0; i < $scope.result.length; i++) {  
-                            // for (var x = 0; x < $scope.data_load.length; x++) {   
-                                // if(
-                                //     (parseFloat($scope.result[i].Lat) != $scope.data_load[x].lat) &&
-                                //     (parseFloat($scope.result[i].Long) != $scope.data_load[x].lng) &&
-                                //     ($scope.result[i].nombre != $scope.data_load[x].nomb) &&
-                                //     ($scope.result[i].codbom != $scope.data_load[x].cod)
-            
-                                // ){  
+                        for (var i = 0; i < $scope.result.length; i++) {   
                             var lat = $scope.result[i].Lat;
                             var lng = $scope.result[i].Long;
                             var foto = 'https://maps.googleapis.com/maps/api/streetview?size=606x400&location='+lat+','+lng+'&pitch=-0.76&key=AIzaSyDSJG8JkNJ3i7pyHZz1gC1TYVUicm3C3sE'; 
@@ -452,16 +446,9 @@ model.controller('Ctrl',
                                 dr: $scope.result[i].dr,
                                 codidenest:$scope.result[i].codidenest,
                                 ubig: $scope.result[i].ubigeo
-                            }
-                            console.log(obj.nomb);
-                            $scope.guardar(obj); 
-                                // }
-                                // else{
-                                //     console.log("repetidas: "+count + 1);
-                                    
-                                // }   
-                        }  
-                        // }
+                            }  
+                            $scope.guardar(obj);    
+                        }   
                     }) 
 
                     

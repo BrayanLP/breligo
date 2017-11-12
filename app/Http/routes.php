@@ -46,5 +46,12 @@ Route::group(['prefix' => 'api/v1/'], function () {
 	    Route::post('/','Web\Locations\LocationsController@store');
 	    Route::put('/{id}','Web\Locations\LocationsController@update');
 	    Route::delete('/{id}','Web\Locations\LocationsController@destroy');
+	});
+	Route::group(['prefix' => 'amigos'], function(){
+	    Route::get('/','Web\Amigos\AmigosController@index');
+	    // Route::get('/{id}','Web\Locations\LocationsController@show');
+	    // Route::post('/','Web\Locations\LocationsController@store');
+	    // Route::put('/{id}','Web\Locations\LocationsController@update');
+	    // Route::delete('/{id}','Web\Locations\LocationsController@destroy');
     }); 
 });

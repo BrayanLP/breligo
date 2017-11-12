@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Locations extends Model
 {
     protected $table = 'Locations';
-    protected $fillable = ['nombre_empresa','nombre_temp','direccion','horario','telefono_1','telefono_2','correo','descripcion','lat','lng','foto','extract','id_services'];
+    protected $fillable = ['nombre_empresa','nombre_temp','direccion','horario','telefono_1','telefono_2','correo','descripcion','lat','lng','foto','extract','id_serv'];
     public function scopeName($query, $name){
         if(trim($name) != ""){ 
             // dd('scope: '.$name);
@@ -33,7 +33,7 @@ class Locations extends Model
         // dd($type);
         if($type != "" && isset($types[$type])){
         	// dd($type);
-        	$query->where('id_services',$type);
+        	$query->where('id_serv',$type);
         }
     }
     public function category(){
