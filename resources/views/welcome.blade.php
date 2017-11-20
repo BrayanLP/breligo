@@ -21,20 +21,20 @@
             <div class="buttons" ng-class="{'right-auto': mapa == 'full','right-move': mapa == 'detalle'}">
                 <ul>
                     <li>
-                        <a href="#!" ng-click="location()" class="btn btn-secondary btn-ms mb-1 pl-2 pr-2 pt-1 pb-1 mr-3" title="Localizame" ng-if="disable_button == false" disabled><img width="20px" src="{{url()}}/assets/app/images/position_actual.svg"></a>
-                        <a href="#!" class="btn btn-secondary btn-ms mb-1 pl-2 pr-2 pt-1 pb-1 mr-3" title="Localizame" ng-if="disable_button == true" disabled><img width="20px" src="{{url()}}/assets/app/images/position_actual_color.svg"></a>
+                        <a href="javascript:void(0);" ng-click="location()" class="btn btn-secondary btn-ms mb-1 pl-2 pr-2 pt-1 pb-1 mr-3" title="Localizame" ng-if="disable_button == false" disabled><img width="40px" src="{{url()}}/assets/app/images/position_actual.svg"></a>
+                        <a href="javascript:void(0);" class="btn btn-secondary btn-ms mb-1 pl-2 pr-2 pt-1 pb-1 mr-3" title="Localizame" ng-if="disable_button == true" disabled><img width="40px" src="{{url()}}/assets/app/images/position_actual_color.svg"></a>
                     </li>
-                    <li>
+                    <!-- <li>
                         
                         <a href="#!" class="btn btn-secondary btn-ms mb-1 pl-2 pr-2 pt-1 pb-1 mr-3" ng-click="showPolice(1)">
                             H
                         </a>
-                    </li>
+                    </li> -->
                     <!-- <a href="" class="btn" for="1" ng-click="toggle_Marker(1)"> Hospitales</a> -->
                     <li ng-repeat="serv in data_load_services">
                         <a href="#!" class="btn btn-secondary btn-ms mb-1 pl-2 pr-2 pt-1 pb-1 mr-1" ng-click="toggle_Marker(serv.id)" title="@{{serv.nombre}}" >
-                            <img ng-show="icon_@{{serv.id}}" width="20px" ng-src="@{{ serv.icon }}" >
-                            <img ng-hide="icon_@{{serv.id}}" width="20px" ng-src="@{{ icon1 }}" >
+                            <img ng-show="icon_@{{serv.id}}" width="40px" ng-src="@{{ serv.icon }}" >
+                            <img ng-hide="icon_@{{serv.id}}" width="40px" ng-src="@{{ icon1 }}" >
                         </a>  
                         <input class="hidden" type="checkbox" id="@{{serv.id}}" ng-click="toggle_Marker(serv.id)" checked>
                     
@@ -50,17 +50,17 @@
         </div>
         <div class="cont-direc" ng-class="{'hide-sidebar': mapa == 'full','show-sidebar': mapa == 'detalle'}">
             @if (Auth::guest())
-                <li><a href="{{route('auth/login')}}">Login</a></li>
-                <li><a href="{{route('auth/register')}}">Register</a></li>
+                <!-- <li><a href="{{route('auth/login')}}">Login</a></li>
+                <li><a href="{{route('auth/register')}}">Register</a></li> -->
             @else 
-                <li><a href="{{route('auth/logout')}}">Logout</a></li> 
+                <!-- <li><a href="{{route('auth/logout')}}">Logout</a></li> 
                 <div class="cont-user">
                     <a class="nav-link site-user dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <img class="nav-img" src="{{url()}}/assets/app/images/user.png" alt=""> 
                         <span class="nav-text hidden-sm-down ml-2">{{ Auth::user()->name }}</span> 
                         <i class="nav-caret hidden-sm-down zmdi zmdi-hc-sm zmdi-chevron-down"></i>
                     </a>
-                </div>
+                </div> -->
             @endif
             <div class="cont-search">
                 <!-- <div class="cont-info" ng-show="header_search"> -->
@@ -306,24 +306,24 @@
                     </div> 
                     
                 </div>
-                 
-                <div class="col-lg-12 col-md-6" ng-repeat="d in data_load" ng-if="show_panel == true" id="@{{d.id}}-@{{d.id_services}}"> 
-                    <div class="card p-1 pl-3 pr-3 bg-faded mb-2 cont-ubicacion">
+                 <!-- <code id="array"></code> -->
+                <div class="col-lg-12 col-md-6 listado" ng-repeat="d in data_load" ng-if="show_panel == true" id="@{{d.id}}-@{{d.id_services}}"> 
+                    <div class="card  bg-faded  cont-ubicacion">
                         <a href="javascript:void(0)" ng-click="markers_hover(d)">
-                            <div class="media p-2"><img class="avatar avatar-md" ng-src="@{{d.foto}}" alt="">
+                            <div class="media "><img class="avatar avatar-md" ng-src="@{{d.foto}}" alt="">
                                 <div class="media-body">
                                     <h6 ng-bind="d.title"></h6>
                                     <p class="mb-0 pb-0">
                                         <span ng-bind="d.number_r"></span>
                                         <span  ng-bind-html="d.raking"></span>
                                     </p>
-                                    <p class="mb-0 pb-0" ng-bind="d.direccion"></p>
+                                    <p class="mb-0 pb-0 direccion" ng-bind="d.direccion"></p>
                                 </div> 
                             </div>
                         </a> 
                     </div> 
                 </div> 
-
+                <!-- <button id="more">More results</button> -->
             </div>
         </div>
         <div class="collapse navbar-collapse" id="site-navbar-collapse"> 

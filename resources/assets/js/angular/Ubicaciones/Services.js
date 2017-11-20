@@ -72,10 +72,10 @@ angular.module('Services', [])
                 return response;
             });
         }, 
-        allBomberos: function(id){
-            return $http.get('http://www.bomberosperu.gob.pe/WcfServiceForInsert/CdService.svc/'+id).then(function(response){
+        createDataToJson: function(url){
+            return $http.get(url).then(function(response){
                 return response
-            })
+            });
         }
         
         

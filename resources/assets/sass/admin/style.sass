@@ -12,8 +12,11 @@ a[href^="https://maps.google.com/maps"]
 .gmnoprint div
   // background:none !important
 .cont-header-search
-  background: #31466a
+  background: #1e88e5
   height: 150px
+  top: 0
+  right: 0
+  position: absolute
   > div
     margin-right: 0
     margin-left: 0
@@ -40,6 +43,32 @@ a[href^="https://maps.google.com/maps"]
         color: #fff
         border-radius: 0px
         padding: .5rem 0
+.site-content
+  width: 100%
+  position: relative
+  height: 100%
+.btn-secondary
+  background: transparent
+  border: none
+.ubicaciones
+  .listado
+    padding: 0rem !important
+    margin: 0 !important
+    .card
+      margin: 0 !important
+      padding: 1rem !important
+      border: 0 solid 
+      border-bottom: 1px solid #f7f7f7
+      background: #fff
+      &:hover
+        transition: 0.3s all
+        background: #1e88e5
+        h6, p
+          color: #fff
+      .direccion
+        font-size: 11px
+      .avatar
+        border-radius: 50%
 #directions_panel
   overflow: auto
   width: 100% 
@@ -75,7 +104,7 @@ a[href^="https://maps.google.com/maps"]
 #detalle_distancia
   // position: absolute
   >div.row:nth-child(1)
-    background: #31466a
+    background: #1e88e5
     
   > div.row
     >div:nth-child(1)
@@ -143,10 +172,11 @@ body
 
 .ubicaciones
   overflow-y: auto
-  height: 605px
+  height: 100%
   position: absolute 
   transition: 0.5s all
   width: 100%
+  box-shadow: -3px 0 5px rgba(0,0,0,0.2)
   // padding-top: 60px
 
   .text-ubicacion
@@ -171,7 +201,7 @@ body
     left: -130px
     width: 132px
   .cont-search
-    background: #31466a
+    background: #1e88e5
     width: 100%
     height: 67px
     padding: 1rem 0
@@ -195,7 +225,7 @@ body
   top: 0px
   right: -30%
   // background: red
-  width: 41%
+  width: 30%
   z-index: 999 
   .cont-user
     width: 27% 
@@ -244,7 +274,7 @@ body
   .globo_ubicacion
     h6
       padding: 0.5rem 0.5rem 0 0.5rem
-      color: #39527b
+      color: #1e88e5
       overflow: hidden
     p
       padding: 0.3rem 0.5rem 0 0.5rem
@@ -253,7 +283,7 @@ body
     img
       border-radius: 3px 3px 0 0 
     a
-      background: #39527b
+      background: #1e88e5
       padding: 0.3rem 1rem
       margin: 0 1rem 1rem 0
       font-size: 12px
@@ -296,7 +326,7 @@ section.detalle
     width: 100%
     display: block
     float: left
-    color: #39527b
+    color: #1e88e5
   .cont-img
     height: 200px
     overflow: hidden
@@ -305,7 +335,7 @@ section.detalle
   .header_detalle
     width: 100%
     float: left
-    background: #39527b
+    background: #1e88e5
     color: #fff
     padding: 0.5rem 1rem
     h4
@@ -315,7 +345,7 @@ section.detalle
       top: -33px
       a
         border-radius: 50%
-        color: #39527b
+        color: #1e88e5
         background: #fff
         padding: 1rem
         margin: 0
@@ -323,7 +353,7 @@ section.detalle
         width: 50px
         height: 50px
         &:hover
-          color: #39527b
+          color: #1e88e5
       span
         font-size: 14px
         display: block
@@ -482,7 +512,7 @@ small
   border-left: 2px solid #eceeef !important
 
 .border-color-primary
-  border-color: #39527b !important
+  border-color: #1e88e5 !important
 
 .border-color-success
   border-color: #60c84c !important
@@ -520,7 +550,7 @@ body
   font-size: .875rem
   font-weight: 300
   font-family: Roboto
-  color: #39527b
+  color: #1e88e5
   &.no-padding
     &:not(.menubar-top) .site-content
       padding-right: 0
@@ -560,7 +590,7 @@ svg
   box-sizing: content-box
 
 .flotTip
-  background: #39527b !important
+  background: #1e88e5 !important
   color: #fff !important
   border: none !important
   padding: 0.5rem 1rem !important
@@ -739,7 +769,7 @@ th
 .media-heading
   margin-bottom: 2px
   font-size: .875rem
-  color: #39527b
+  color: #1e88e5
 
 .media-list
   .media
@@ -1003,10 +1033,10 @@ th
 .dropdown-menu-cap
   border-bottom: 1px solid #f0f0f0
   font-weight: 400
-  color: #39527b !important
+  color: #1e88e5 !important
   background-color: #fbfbfb
   &:focus, &:hover
-    color: #39527b !important
+    color: #1e88e5 !important
     background-color: #fbfbfb
 
 .dropdown-menu .scroll-container
@@ -1191,7 +1221,7 @@ th
   align-items: center
   -ms-flex-pack: distribute
   justify-content: space-around
-  background-color: #31466a
+  background-color: #1e88e5
   &:focus
     outline: none
   .hamburger-box
@@ -1267,7 +1297,7 @@ th
   -ms-flex-item-align: center
   -ms-grid-row-align: center
   align-self: center
-  color: #39527b
+  color: #1e88e5
 
 .img-gallery-zoom-effect .g__item
   .g__figure > img, .g__img
@@ -1579,8 +1609,8 @@ th
 
 .checkbox-primary input
   &[type=checkbox]:checked + label:before, &[type=radio]:checked + label:before
-    background-color: #39527b
-    border-color: #39527b
+    background-color: #1e88e5
+    border-color: #1e88e5
   &[type=checkbox]:checked + label:after, &[type=radio]:checked + label:after
     color: #fff
 
@@ -1628,8 +1658,8 @@ th
 
 .checkbox-primary input
   &[type=checkbox]:indeterminate + label:before, &[type=radio]:indeterminate + label:before
-    background-color: #39527b
-    border-color: #39527b
+    background-color: #1e88e5
+    border-color: #1e88e5
   &[type=checkbox]:indeterminate + label:after, &[type=radio]:indeterminate + label:after
     background-color: #fff
 
@@ -1678,9 +1708,9 @@ th
 .radio-primary input[type=radio]
   + label, &:checked + label
     &:before
-      border-color: #39527b
+      border-color: #1e88e5
     &:after
-      background-color: #39527b
+      background-color: #1e88e5
 
 .radio-danger input[type=radio]
   + label, &:checked + label
@@ -2088,7 +2118,7 @@ body
   // padding-top: 66px
   -webkit-transition: padding-top .35s
   transition: padding-top .35s
-  overflow: hidden
+  // overflow: hidden
 
 @media (min-width: 768px)
   body.menubar-fold .hidden-fold
@@ -2428,7 +2458,7 @@ body:not(.menubar-fold) .site-menubar
   flex: 0 0 auto
 
 .navbar-inverse .navbar-nav .nav-link, .navbar-light .navbar-nav .nav-link
-  color: #39527b
+  color: #1e88e5
 
 .navbar-inverse .navbar-nav
   .active > .nav-link
@@ -2483,7 +2513,7 @@ body:not(.menubar-fold) .site-menubar
     box-shadow: 0 0 12px #ff7473
   background: transparent
   .hamburger
-    background: #31466a
+    background: #1e88e5
   .navbar-btn
     color: #fff
     background: none
@@ -2566,7 +2596,7 @@ body:not(.menubar-fold) .site-menubar
 @media (min-width: 768px)
   body
     &.menubar-inverse .navbar:not(.navbar-inverse) .navbar-header
-      background: #31466a
+      background: #1e88e5
       .navbar-brand
         color: #fff
         &:focus, &:hover
@@ -2580,30 +2610,30 @@ body:not(.menubar-fold) .site-menubar
       border-right: 1px solid #e6e6e6
       box-shadow: 2px -2px 4px rgba(0, 0, 0, 0.08)
       .navbar-brand
-        color: #39527b
+        color: #1e88e5
         &:focus, &:hover
-          color: #39527b
+          color: #1e88e5
       a
-        color: #39527b
+        color: #1e88e5
         &:focus, &:hover
-          color: #39527b
+          color: #1e88e5
 
 @media (max-width: 767px)
   .navbar-light .navbar-header
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08)
     border-bottom: 1px solid #eceeef
     .navbar-brand
-      color: #39527b
+      color: #1e88e5
       &:focus, &:hover
-        color: #39527b
+        color: #1e88e5
     .navbar-toggler
-      color: #39527b
+      color: #1e88e5
       &:focus, &:hover
-        color: #39527b
+        color: #1e88e5
     a
-      color: #39527b
+      color: #1e88e5
       &:focus, &:hover
-        color: #39527b
+        color: #1e88e5
 
 .site-header
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08)
@@ -2621,7 +2651,7 @@ body:not(.menubar-fold) .site-menubar
     border-top-color: #e6e6e6
 
 .site-menubar
-  background: #39527b
+  background: #1e88e5
 
 .site-menu
   li

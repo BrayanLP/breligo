@@ -29,13 +29,14 @@ model.controller('Ctrl',
     $scope.mapa = 'full';
     $scope.header_search = true;
     
-    $scope.load = function(q,p,page){
+    $scope.load = function(q,id_serv,p,page){
         if(q == undefined){ 
             q = "";
         }   
-        Services.Load(q,p,page).then(function (response) {
+        Services.Load(q,id_serv,p,page).then(function (response) {
             $scope.data_load = response.data; 
             // $scope.temp.push($scope.data_load);  
+            console.log($scope.data_load);
             $scope.to = response.to; 
             $scope.total = response.total;
             $scope.last_page = response.last_page;
@@ -148,21 +149,103 @@ model.controller('Ctrl',
     var directionsDisplay = null;
     var directionsService = null; 
     // var style = [{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#31466a"}]},{"featureType":"landscape","elementType":"all","stylers":[{"saturation":"-13"},{"lightness":"6"},{"gamma":"1.81"},{"color":"#c9ccd1"}]},{"featureType":"landscape","elementType":"labels","stylers":[{"weight":"1.82"}]},{"featureType":"landscape","elementType":"labels.text","stylers":[{"visibility":"on"}]},{"featureType":"landscape","elementType":"labels.text.fill","stylers":[{"lightness":"3"},{"gamma":"0.00"},{"saturation":"-1"},{"weight":"2.30"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"all","stylers":[{"saturation":-100},{"lightness":45},{"visibility":"on"}]},{"featureType":"road.highway","elementType":"all","stylers":[{"visibility":"simplified"},{"saturation":"-100"}]},{"featureType":"road.arterial","elementType":"labels.icon","stylers":[{"visibility":"off"},{"saturation":"-100"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"on"},{"saturation":"-100"}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#5375ac"},{"visibility":"on"}]}];
-    var style = [
+    var style = 
+    [
         {
-            "featureType": "administrative.country",
-            "elementType": "geometry",
+            "featureType": "administrative.land_parcel",
+            "elementType": "all",
             "stylers": [
                 {
-                    "visibility": "simplified"
-                },
+                    "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "landscape.man_made",
+            "elementType": "all",
+            "stylers": [
                 {
-                    "hue": "#ff0000"
+                    "visibility": "off"
                 }
             ]
         },
         {
             "featureType": "poi",
+            "elementType": "labels",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "road",
+            "elementType": "labels",
+            "stylers": [
+                {
+                    "visibility": "simplified"
+                },
+                {
+                    "lightness": 20
+                }
+            ]
+        },
+        {
+            "featureType": "road.highway",
+            "elementType": "geometry",
+            "stylers": [
+                {
+                    "hue": "#f49935"
+                }
+            ]
+        },
+        {
+            "featureType": "road.highway",
+            "elementType": "labels",
+            "stylers": [
+                {
+                    "visibility": "simplified"
+                }
+            ]
+        },
+        {
+            "featureType": "road.arterial",
+            "elementType": "geometry",
+            "stylers": [
+                {
+                    "hue": "#fad959"
+                }
+            ]
+        },
+        {
+            "featureType": "road.arterial",
+            "elementType": "labels",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "road.local",
+            "elementType": "geometry",
+            "stylers": [
+                {
+                    "visibility": "simplified"
+                }
+            ]
+        },
+        {
+            "featureType": "road.local",
+            "elementType": "labels",
+            "stylers": [
+                {
+                    "visibility": "simplified"
+                }
+            ]
+        },
+        {
+            "featureType": "transit",
             "elementType": "all",
             "stylers": [
                 {
@@ -171,24 +254,21 @@ model.controller('Ctrl',
             ]
         },
         {
-            "featureType": "poi.attraction",
+            "featureType": "water",
             "elementType": "all",
             "stylers": [
                 {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "poi.business",
-            "elementType": "all",
-            "stylers": [
+                    "hue": "#a1cdfc"
+                },
                 {
-                    "visibility": "off"
+                    "saturation": 30
+                },
+                {
+                    "lightness": 49
                 }
             ]
         }
-    ];
+    ]
 
     function closeInfoWindow(){
         // infoWindow = new google.maps.InfoWindow(); 
@@ -241,8 +321,9 @@ model.controller('Ctrl',
             var service = new google.maps.places.PlacesService(map);        
 
             var places = searchBox.getPlaces();
+            // console.log(places);
             var place = places[0];
-            var radius = 5000;  
+            var radius = 15000;  
             if (places.length == 0) {
                 return;
             }
@@ -251,7 +332,10 @@ model.controller('Ctrl',
                 marker.setMap(null);
             });
             markers = [];
+            $scope.data_temporal = [];
             $scope.data_load = [];
+
+            var s = document.getElementById("array");
             var bounds = new google.maps.LatLngBounds();
 
             if(places.length > 1 ){
@@ -263,16 +347,39 @@ model.controller('Ctrl',
                 $scope.show_detail_marker();   
             }
             // console.log(places.length);
-            for (var i = 0; i < places.length; i++) {
-                // var place = places[i];
-                // console.log(places[i].place_id);
-                // console.log(places[i]);
+            for (var i = 0; i < places.length; i++) {  
                 service.getDetails({placeId: places[i].place_id}, function(place, status) {
                     if (status !== google.maps.places.PlacesServiceStatus.OK) {
                         return;
                     }
-                    // console.log(place)
+                    var obj = {
+                        nombre: place.name, 
+                        direccion: place.formatted_address,
+                        telefonos:	place.international_phone_number,
+                        link_web:	place.website,
+                        correo	: null,
+                        desc	: null,
+                        Lat	:   place.geometry.location.lat(),
+                        Long	:place.geometry.location.lng(),
+                        abrev	: null,
+                        codbom	: null,
+                        fecha_fundacion	: null,
+                        dr	: null,
+                        cargo:	null,
+                        codidenest: null,
+                        ubigeo: null
+                    }
+                    if(place.opening_hours != undefined){
+                        obj["horario"] =  place.opening_hours
+
+                    }
+                    else{
+                        obj["horario"] =  null
+                    }
+                    $scope.data_temporal.push(obj);
+                    // s.innerHTML = JSON.stringify($scope.data_temporal); 
                     createMarker(place); 
+                     
                     // console.log(marker);
                     // infoWindow.setContent(marker);
                     // infoWindow.open(map, marker);
@@ -315,11 +422,11 @@ model.controller('Ctrl',
                 value === 'bank' || value === 'finance'
             ){
                 var icon = { 
-                    url: '//localhost:8000/assets/app/images/banco-color.svg', 
-                    scaledSize: new google.maps.Size(20, 20), 
+                    url: '//localhost:8000/assets/app/images/banco.png', 
+                    size: new google.maps.Size(30, 30),  
                     origin: new google.maps.Point(0, 0), 
-                    anchor: new google.maps.Point(0, 0),
-                    scale: 1
+                    anchor: new google.maps.Point(0, 0) ,
+                    scaledSize: new google.maps.Size(30, 30)
                 }; 
                 place.icon_new = icon; 
             } 
@@ -327,11 +434,11 @@ model.controller('Ctrl',
                 value === 'police'
             ){
                 var icon = { 
-                    url: '//localhost:8000/assets/app/images/comisaria-color.svg', 
-                    scaledSize: new google.maps.Size(20, 20),  
+                    url: '//localhost:8000/assets/app/images/comisaria.png', 
+                    size: new google.maps.Size(30, 30),  
                     origin: new google.maps.Point(0, 0), 
-                    anchor: new google.maps.Point(0, 0),
-                    scale: 1
+                    anchor: new google.maps.Point(0, 0) ,
+                    scaledSize: new google.maps.Size(30, 30)
                 };  
                 place.icon_new = icon;
             }
@@ -339,11 +446,11 @@ model.controller('Ctrl',
                 value === 'hospital'
             ){
                 var icon = { 
-                    url: '//localhost:8000/assets/app/images/hospital-color.svg', 
-                    scaledSize: new google.maps.Size(20, 20),  
+                    url: '//localhost:8000/assets/app/images/hospital.png', 
+                    size: new google.maps.Size(30, 30),  
                     origin: new google.maps.Point(0, 0), 
-                    anchor: new google.maps.Point(0, 0),
-                    scale: 1
+                    anchor: new google.maps.Point(0, 0) ,
+                    scaledSize: new google.maps.Size(30, 30)
                 };  
                 place.icon_new = icon;
             }
@@ -351,11 +458,11 @@ model.controller('Ctrl',
                 value === 'fire_station'
             ){
                 var icon = { 
-                    url: '//localhost:8000/assets/app/images/bomberos-color.svg', 
-                    scaledSize: new google.maps.Size(20, 20),  
+                    url: '//localhost:8000/assets/app/images/bomberos.png', 
+                    size: new google.maps.Size(30, 30),  
                     origin: new google.maps.Point(0, 0), 
-                    anchor: new google.maps.Point(0, 0),
-                    scale: 1
+                    anchor: new google.maps.Point(0, 0) ,
+                    scaledSize: new google.maps.Size(30, 30)
                 }; 
                 place.icon_new = icon; 
             } 
@@ -863,7 +970,7 @@ model.controller('Ctrl',
                 map.setZoom(16);
                 map.panTo(me.position); 
                 $scope.indicaciones();
-                $scope.load_allBomberos();
+                // $scope.load_allBomberos();
                 $scope.$digest();
 
                 // $scope.cargar_marcadores();
@@ -875,6 +982,9 @@ model.controller('Ctrl',
 
         }
          
+    }
+    $scope.locationMarkers = function(text,id_serv,per_page, page){
+        $scope.load(text,id_serv,per_page,page);
     }
     /* permite mostra y ocultar los marcadores y actualizar el listado */
     $scope.icon_true = function(){
@@ -897,25 +1007,25 @@ model.controller('Ctrl',
         if (id === 1) {
             input.value = "bancos";  
             $scope.icon_1 = false;
-            $scope.icon1 = "/assets/app/images/banco-color.svg";
+            $scope.icon1 = "/assets/app/images/banco.png";
         }
         else if(id === 2){ 
             input.value = "comisarias"; 
             $scope.icon_2 = false;
-            $scope.icon1 = "/assets/app/images/comisaria-color.svg"; 
+            $scope.icon1 = "/assets/app/images/comisaria.png"; 
         }
         else if(id === 3){ 
             input.value = "hospitales"; 
             $scope.icon_3 = false;
-            $scope.icon1 = "/assets/app/images/hospital-color.svg"; 
+            $scope.icon1 = "/assets/app/images/hospital.png"; 
         }
         else if(id === 4){
             input.value = "bomberos";
             $scope.icon_4 = false;
-            $scope.icon1 = "/assets/app/images/bomberos-color.svg";   
-            console.log("entre"); 
+            $scope.icon1 = "/assets/app/images/bomberos.png";    
             // google.maps.event.addListener(map, 'bounds_changed',function(){
-            $scope.load_allBomberos();
+            
+            // $scope.locationMarkers('',id,10,1);
             // });  
             // $scope.limit_changed(4); 
         }
@@ -1267,7 +1377,7 @@ model.controller('Ctrl',
         $scope.show_detalle = false; 
         $scope.show_panel   = true;  
         $scope.return_list = false; 
-        $('#ubicaciones').css('height','605px');
+        // $('#ubicaciones').css('height','605px');
     };
 
     $scope.como_llegar = function(lat, lng){ 

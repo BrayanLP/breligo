@@ -36,6 +36,7 @@ class CreateLocationsTable extends Migration
             $table->string('dr',50)->nullable();
             $table->string('codidenest',10)->nullable();
             $table->string('ubig',10)->nullable();
+            $table->string('cargo',20)->nullable();
 
             // $table->string('ext',60)->nullable(); 
             $table->foreign('id_serv')->references('id')->on('services')->onDelete('cascade'); 

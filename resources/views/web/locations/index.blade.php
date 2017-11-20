@@ -36,8 +36,25 @@
                         <span>Agregar</span>
                     </a>
                 </li> 
-                <a href="#!" ng-click="cargar_agentes()">Crear Agentes</a>
-                <a href="#!" ng-click="update_allBomberos()">Actualizar Bomberos</a>
+                <!-- <li class=""> 
+                    <a href="#!" class="btn btn-secondary btn-sm" ng-click="cargar_agentes()"> Agentes</a>
+                </li> -->
+                <li class=""> 
+                    <a href="javascript:void(0);" class="btn btn-secondary btn-sm" ng-click="jsonConvert(5)"> Municipalidades</a>
+                </li>
+                <li class=""> 
+                    <a href="javascript:void(0);" class="btn btn-secondary btn-sm" ng-click="jsonConvert(4)"> Bomberos</a>
+                </li>
+                <li class=""> 
+                    <a href="javascript:void(0);" class="btn btn-secondary btn-sm" ng-click="jsonConvert(3)"> Hospitales</a>
+                </li>
+                <li class=""> 
+                    <a href="javascript:void(0);" class="btn btn-secondary btn-sm" ng-click="jsonConvert(2)"> Comisarias</a>
+                </li>
+                <li class=""> 
+                    <a href="javascript:void(0);" class="btn btn-secondary btn-sm" ng-click="jsonConvert(1)"> Bancos</a>
+                </li>
+                
             </ul>
         </div>
         <!-- /.breadcrumb -->
